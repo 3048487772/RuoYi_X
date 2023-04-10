@@ -27,6 +27,28 @@ public class GenConfig
     /** 表前缀(类名不会包含表前缀) */
     public static String tablePrefix;
 
+    /** 生成时后端模块名称 **/
+    public static String backModuleName;
+
+    /** 生成时前端模块名称 **/
+    public static String  frontModuleName;
+
+
+    public static String getFrontModuleName() {
+        return frontModuleName;
+    }
+
+    public static void setFrontModuleName(String frontModuleName) {
+        GenConfig.frontModuleName = frontModuleName;
+    }
+    public static String getBackModuleName() {
+        return backModuleName;
+    }
+
+    public static void setBackModuleName(String backModuleName) {
+        GenConfig.backModuleName = backModuleName;
+    }
+
     public static String getAuthor()
     {
         return author;

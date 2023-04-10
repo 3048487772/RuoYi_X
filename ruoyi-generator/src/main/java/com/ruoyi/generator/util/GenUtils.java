@@ -1,12 +1,14 @@
 package com.ruoyi.generator.util;
 
-import java.util.Arrays;
-import org.apache.commons.lang3.RegExUtils;
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.constant.GenConstants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.generator.config.GenConfig;
 import com.ruoyi.generator.domain.GenTable;
 import com.ruoyi.generator.domain.GenTableColumn;
+import org.apache.commons.lang3.RegExUtils;
+
+import java.util.Arrays;
 
 /**
  * 代码生成器 工具类
@@ -23,7 +25,7 @@ public class GenUtils
         genTable.setClassName(convertClassName(genTable.getTableName()));
         genTable.setPackageName(GenConfig.getPackageName());
         genTable.setModuleName(getModuleName(GenConfig.getPackageName()));
-        genTable.setBusinessName(getBusinessName(genTable.getTableName()));
+        genTable.setBusinessName(convertClassName(genTable.getTableName()));
         genTable.setFunctionName(replaceText(genTable.getTableComment()));
         genTable.setFunctionAuthor(GenConfig.getAuthor());
         genTable.setCreateBy(operName);
@@ -87,14 +89,19 @@ public class GenUtils
             column.setIsEdit(GenConstants.REQUIRE);
         }
         // 列表字段
-        if (!arraysContains(GenConstants.COLUMNNAME_NOT_LIST, columnName) && !column.isPk())
-        {
-            column.setIsList(GenConstants.REQUIRE);
+        if (!arraysContains(GenConstants.COLUMNNAME_NOT_LIST, columnName) && !column.isPk()) {
+            if (!StrUtil.equals(column.getColumnType(), "text")) {
+                if (!StrUtil.containsAny(column.getColumnComment(), "描述","内容","详情")) {
+                    column.setIsList(GenConstants.REQUIRE);
+                }
+            }
         }
         // 查询字段
         if (!arraysContains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk())
         {
-            column.setIsQuery(GenConstants.REQUIRE);
+            if (StringUtils.containsAny(column.getColumnComment(), "名称", "类型")) {
+                column.setIsQuery(GenConstants.REQUIRE);
+            }
         }
 
         // 查询字段类型
