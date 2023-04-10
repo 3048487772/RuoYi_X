@@ -525,9 +525,9 @@ public class GenTableServiceImpl implements IGenTableService
             }
         } else {
             if (template.contains("vue") || template.contains("api")) {
-                return genPath + File.separator + frontModuleName + File.separator + VelocityUtils.getFileName(template, table);
+                return genPath + File.separator + frontModuleName + File.separator + "src" + File.separator + VelocityUtils.getFileName(template, table);
             } else {
-                return genPath + File.separator + backModuleName + File.separator + VelocityUtils.getFileName(template, table);
+                return genPath + File.separator + backModuleName + File.separator + "src" + File.separator + VelocityUtils.getFileName(template, table);
             }
         }
     }
