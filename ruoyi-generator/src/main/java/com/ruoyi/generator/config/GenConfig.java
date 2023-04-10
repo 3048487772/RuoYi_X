@@ -37,14 +37,14 @@ public class GenConfig
     public static String getFrontModuleName() {
         return frontModuleName;
     }
-
+    @Value("${frontModuleName}")
     public static void setFrontModuleName(String frontModuleName) {
         GenConfig.frontModuleName = frontModuleName;
     }
     public static String getBackModuleName() {
         return backModuleName;
     }
-
+    @Value("${backModuleName}")
     public static void setBackModuleName(String backModuleName) {
         GenConfig.backModuleName = backModuleName;
     }
