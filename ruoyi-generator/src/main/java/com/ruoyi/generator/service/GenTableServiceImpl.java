@@ -1,5 +1,6 @@
 package com.ruoyi.generator.service;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.constant.Constants;
@@ -259,7 +260,7 @@ public class GenTableServiceImpl implements IGenTableService
         List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
         for (String template : templates)
         {
-            if (!StringUtils.containsAny(template, "sql.vm"))
+            if (!StrUtil.containsAny(template, "sql.vm"))
             {
                 // 渲染模板
                 StringWriter sw = new StringWriter();
