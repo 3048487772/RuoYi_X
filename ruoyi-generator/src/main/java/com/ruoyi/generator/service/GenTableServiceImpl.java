@@ -19,6 +19,7 @@ import com.ruoyi.generator.util.VelocityInitializer;
 import com.ruoyi.generator.util.VelocityUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -28,10 +29,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
+import javax.sql.DataSource;
+import java.io.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,9 @@ public class GenTableServiceImpl implements IGenTableService
 
     @Autowired
     private GenTableColumnMapper genTableColumnMapper;
+
+    @Autowired
+    private DataSource dataSource;
 
     /**
      * 查询业务信息
@@ -260,25 +264,46 @@ public class GenTableServiceImpl implements IGenTableService
         List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
         for (String template : templates)
         {
-            if (!StrUtil.containsAny(template, "sql.vm"))
-            {
+            if (!StrUtil.containsAny(template, "sql.vm")) {
                 // 渲染模板
                 StringWriter sw = new StringWriter();
                 Template tpl = Velocity.getTemplate(template, Constants.UTF8);
                 tpl.merge(context, sw);
-                try
-                {
+                try {
                     String path = getGenPath(table, template);
                     FileUtils.writeStringToFile(new File(path), sw.toString(), CharsetKit.UTF_8);
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                     throw new ServiceException("渲染模板失败，表名：" + table.getTableName());
                 }
-            }
+            } else {
+                if (StrUtil.contains(table.getRemark(), "sql")) {
+                    // 渲染模板
+                    StringWriter sw = new StringWriter();
+                    Template tpl = Velocity.getTemplate(template, Constants.UTF8);
+                    tpl.merge(context, sw);
+                    runScript(sw.toString());
+                    GenTable genTable = genTableMapper.selectGenTableById(table.getTableId());
+                    genTable.setRemark(StrUtil.removeAll(genTable.getRemark(), "sql"));
+                    genTableMapper.updateGenTable(genTable);
+                }
+            } 
         }
     }
 
+    /**
+     * 执行sql文件
+     * @param sqlScript
+     * @throws Exception
+     */
+    public void runScript(String sqlScript){
+        try (Connection conn = dataSource.getConnection()) {
+            ScriptRunner runner = new ScriptRunner(conn);
+            runner.setSendFullScript(false);
+            runner.runScript(new StringReader(sqlScript));
+        } catch (SQLException e) {
+            throw new ServiceException("Failed to execute SQL script: " + e.getMessage());
+        }
+    }
     /**
      * 同步数据库
      *

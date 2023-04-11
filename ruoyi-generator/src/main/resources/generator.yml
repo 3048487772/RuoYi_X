@@ -12,3 +12,8 @@ gen:
   backModuleName: ruoyi-bussiness
   # 生成代码时前端名称
   frontModuleName: ruoyi-ui
+  # 是否生成swagger注解 (模块需要引入swagger依赖,否则生成出的内容报错)
+  swagger: true
+  # 是否使用lombok注解 （需要引入lombok依赖）
+  lombok: true
+  

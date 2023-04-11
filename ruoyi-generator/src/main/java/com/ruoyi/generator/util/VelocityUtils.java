@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.constant.GenConstants;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.generator.config.GenConfig;
 import com.ruoyi.generator.domain.GenTable;
 import com.ruoyi.generator.domain.GenTableColumn;
 import org.apache.velocity.VelocityContext;
@@ -66,6 +67,7 @@ public class VelocityUtils {
         velocityContext.put("columns", genTable.getColumns());
         velocityContext.put("table", genTable);
         velocityContext.put("dicts", getDicts(genTable));
+        velocityContext.put("isSwagger", GenConfig.getSwagger());
         setMenuVelocityContext(velocityContext, genTable);
         if (GenConstants.TPL_TREE.equals(tplCategory)) {
             setTreeVelocityContext(velocityContext, genTable);
@@ -126,7 +128,11 @@ public class VelocityUtils {
      */
     public static List<String> getTemplateList(String tplCategory) {
         List<String> templates = new ArrayList<String>();
-        templates.add("vm/java/domain.java.vm");
+        if (GenConfig.getLombok()) {
+            templates.add("vm/java/domain_lombok.java.vm");
+        } else {
+            templates.add("vm/java/domain.java.vm");
+        } 
         templates.add("vm/java/mapper.java.vm");
         templates.add("vm/java/service.java.vm");
         templates.add("vm/java/serviceImpl.java.vm");
@@ -173,7 +179,7 @@ public class VelocityUtils {
         } else {
             vuePath = "vue/";
         }
-        if (template.contains("domain.java.vm")) {
+        if (template.contains("domain.java.vm")||template.contains("domain_lombok.java.vm")) {
             fileName = StringUtils.format("{}/domain/{}.java", javaPath, className);
         }
         if (template.contains("sub-domain.java.vm") && StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {

@@ -33,6 +33,27 @@ public class GenConfig
     /** 生成时前端模块名称 **/
     public static String  frontModuleName;
 
+    /** 是否生成swagger注解 **/
+    public static Boolean swagger;
+    
+    /** 是否使用lombok注解 **/
+    public static Boolean lombok;
+    public static Boolean getSwagger() {
+        return swagger;
+    }
+
+    public static Boolean getLombok() {
+        return lombok;
+    }
+    @Value("${lombok}")
+    public void setLombok(Boolean lombok) {
+        GenConfig.lombok = lombok;
+    }
+
+    @Value("${swagger}")
+    public void setSwagger(Boolean swagger) {
+        GenConfig.swagger = swagger;
+    }
 
     public static String getFrontModuleName() {
         return frontModuleName;
