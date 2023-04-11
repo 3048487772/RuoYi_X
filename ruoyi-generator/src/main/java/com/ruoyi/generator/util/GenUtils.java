@@ -47,6 +47,28 @@ public class GenUtils
         column.setJavaType(GenConstants.TYPE_STRING);
         column.setQueryType(GenConstants.QUERY_EQ);
 
+        //列表排除
+        String[] unListType={"text"};//列表排除
+        String[] unListComment={"描述","内容","详情"};
+        //查询字段
+        String[] queryComment={"名称", "类型","号"};
+        //模糊查询字段
+        String[]  likeName={"name","phone"};
+        String[]  likeComment={"名称","号"};
+        //多选框组件
+        String[] radioName={"status"};
+        //下拉框控件对应
+        String[] selectName={"type","sex"};
+        //图片上传控件对应
+        String[] imageUploadName = {"image", "url", "logo","photo"};
+        String[] imageUploadComment={"图片","头像","照片"};
+        //文件上传控件对应
+        String[] fileUploadName={"file"};
+        //富文本控件对应
+        String[] editorName = {"content"};
+
+
+
         if (arraysContains(GenConstants.COLUMNTYPE_STR, dataType) || arraysContains(GenConstants.COLUMNTYPE_TEXT, dataType))
         {
             // 字符串长度超过500设置为文本域
@@ -91,48 +113,45 @@ public class GenUtils
         }
         // 列表字段
         if (!arraysContains(GenConstants.COLUMNNAME_NOT_LIST, columnName) && !column.isPk()) {
-            if (!StrUtil.equals(column.getColumnType(), "text")) {
-                if (!StrUtil.containsAny(column.getColumnComment(), "描述","内容","详情")) {
-                    column.setIsList(GenConstants.REQUIRE);
-                }
+            if (!StrUtil.containsAny(column.getColumnType(), unListType)||!StrUtil.containsAny(column.getColumnComment(), unListComment)) {
+                column.setIsList(GenConstants.REQUIRE);
             }
         }
         // 查询字段
         if (!arraysContains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk())
         {
-            if (StringUtils.containsAny(column.getColumnComment(), "名称", "类型")) {
+            if (StringUtils.containsAny(column.getColumnComment(), queryComment)) {
                 column.setIsQuery(GenConstants.REQUIRE);
             }
         }
 
         // 查询字段类型
-        if (StringUtils.endsWithIgnoreCase(columnName, "name"))
+        if (StrUtil.containsAny(columnName, likeName)||StrUtil.containsAny(column.getColumnComment(),likeComment))
         {
             column.setQueryType(GenConstants.QUERY_LIKE);
         }
         // 状态字段设置单选框
-        if (StringUtils.endsWithIgnoreCase(columnName, "status"))
+        if (StrUtil.containsAny(columnName, radioName))
         {
             column.setHtmlType(GenConstants.HTML_RADIO);
         }
         // 类型&性别字段设置下拉框
-        else if (StringUtils.endsWithIgnoreCase(columnName, "type")
-                || StringUtils.endsWithIgnoreCase(columnName, "sex"))
+        else if (StrUtil.containsAny(columnName, selectName))
         {
             column.setHtmlType(GenConstants.HTML_SELECT);
         }
         // 图片字段设置图片上传控件
-        else if (StringUtils.endsWithIgnoreCase(columnName, "image")||StringUtils.endsWithIgnoreCase(columnName,"url")||StrUtil.containsAny(columnName,"logo"))
+        else if (StrUtil.containsAny(columnName, imageUploadName)||StrUtil.containsAny(column.getColumnComment(),imageUploadComment))
         {
             column.setHtmlType(GenConstants.HTML_IMAGE_UPLOAD);
         }
         // 文件字段设置文件上传控件
-        else if (StringUtils.endsWithIgnoreCase(columnName, "file"))
+        else if (StrUtil.containsAny(columnName, fileUploadName))
         {
             column.setHtmlType(GenConstants.HTML_FILE_UPLOAD);
         }
         // 内容字段设置富文本控件
-        else if (StringUtils.endsWithIgnoreCase(columnName, "content"))
+        else if (StrUtil.containsAny(columnName,editorName))
         {
             column.setHtmlType(GenConstants.HTML_EDITOR);
         }
