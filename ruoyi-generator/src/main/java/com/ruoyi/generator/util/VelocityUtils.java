@@ -68,6 +68,7 @@ public class VelocityUtils {
         velocityContext.put("table", genTable);
         velocityContext.put("dicts", getDicts(genTable));
         velocityContext.put("isSwagger", GenConfig.getSwagger());
+        velocityContext.put("isLombok", GenConfig.getLombok());
         setMenuVelocityContext(velocityContext, genTable);
         if (GenConstants.TPL_TREE.equals(tplCategory)) {
             setTreeVelocityContext(velocityContext, genTable);
@@ -128,11 +129,7 @@ public class VelocityUtils {
      */
     public static List<String> getTemplateList(String tplCategory) {
         List<String> templates = new ArrayList<String>();
-        if (GenConfig.getLombok()) {
-            templates.add("vm/java/domain_lombok.java.vm");
-        } else {
-            templates.add("vm/java/domain.java.vm");
-        } 
+        templates.add("vm/java/domain.java.vm");
         templates.add("vm/java/mapper.java.vm");
         templates.add("vm/java/service.java.vm");
         templates.add("vm/java/serviceImpl.java.vm");

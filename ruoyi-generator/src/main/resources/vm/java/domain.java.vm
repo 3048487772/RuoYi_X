@@ -3,12 +3,17 @@ package ${packageName}.domain;
 #foreach ($import in $importList)
 import ${import};
 #end
+#if(!$isLombok)
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+#end
 import com.ruoyi.common.annotation.Excel;
 #if($isSwagger)
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+#end
+#if($isLombok)
+import lombok.Data;
 #end
 #if($table.crud || $table.sub)
 import com.ruoyi.common.core.domain.BaseEntity;
@@ -26,6 +31,9 @@ import com.ruoyi.common.core.domain.TreeEntity;
 #set($Entity="BaseEntity")
 #elseif($table.tree)
 #set($Entity="TreeEntity")
+#end
+#if($isLombok)
+@Data
 #end
 #if($isSwagger)
 @ApiModel(value = "${ClassName}", description = "${functionName}对象")    
@@ -65,6 +73,8 @@ public class ${ClassName} extends ${Entity}
     private List<${subClassName}> ${subclassName}List;
 
 #end
+
+#if(!$isLombok)
 #foreach ($column in $columns)
 #if(!$table.isSuperColumn($column.javaField))
 #if($column.javaField.length() > 2 && $column.javaField.substring(1,2).matches("[A-Z]"))
@@ -112,4 +122,5 @@ public class ${ClassName} extends ${Entity}
 #end
             .toString();
     }
+#end
 }
