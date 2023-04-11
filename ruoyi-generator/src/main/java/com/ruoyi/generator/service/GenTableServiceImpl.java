@@ -1,5 +1,6 @@
 package com.ruoyi.generator.service;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -95,7 +96,8 @@ public class GenTableServiceImpl implements IGenTableService
     @Override
     public List<GenTable> selectDbTableList(GenTable genTable)
     {
-        return genTableMapper.selectDbTableList(genTable);
+        List<GenTable> genTables = genTableMapper.selectDbTableList(genTable);
+        return genTables;
     }
 
     /**
