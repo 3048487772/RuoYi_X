@@ -58,7 +58,7 @@ public class GenUtils
         //多选框组件
         String[] radioName={"status"};
         //下拉框控件对应
-        String[] selectName={"type","sex"};
+        String[] selectName={"type","sex","category"};
         //图片上传控件对应
         String[] imageUploadName = {"image", "url", "logo","photo"};
         String[] imageUploadComment={"图片","头像","照片"};
