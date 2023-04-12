@@ -16,6 +16,10 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
+
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+
 #if($isSwagger)
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -93,7 +97,7 @@ public class ${ClassName}Controller extends BaseController
     @GetMapping(value = "/{${pkColumn.javaField}}")
     public AjaxResult getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
     {
-        return success(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
+        return AjaxResult.success(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
     }
 
     /**
@@ -136,5 +140,26 @@ public class ${ClassName}Controller extends BaseController
     public AjaxResult remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s)
     {
         return toAjax(${className}Service.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));
+    }
+
+    /**
+     * 导入${functionName}
+     */
+    @Log(title = "${functionName}", businessType = BusinessType.IMPORT)
+    @PostMapping("/importData")
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
+    {
+        ExcelUtil<${ClassName}> util = new ExcelUtil<>(${ClassName}.class);
+        List<${ClassName}> ${className}List = util.importExcel(file.getInputStream());
+        String operName = getUsername();
+        String message = ${className}Service.imporIteminfo(${className}List, updateSupport, operName);
+        return AjaxResult.success(message);
+    }
+    // 下载模板
+    @PostMapping("/importTemplate")
+    public void importTemplate(HttpServletResponse response) throws IOException
+    {
+        ExcelUtil<${ClassName}> util = new ExcelUtil<>(${ClassName}.class);
+        util.importTemplateExcel(response,"${functionName}");
     }
 }

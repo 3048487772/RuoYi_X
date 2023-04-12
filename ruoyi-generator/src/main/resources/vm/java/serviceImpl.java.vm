@@ -9,9 +9,14 @@ import com.ruoyi.common.utils.DateUtils;
 #end
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.bean.BeanValidators;
+import com.ruoyi.common.exception.ServiceException;
+import javax.validation.Validator;
+
 #if($table.sub)
 import java.util.ArrayList;
-import com.ruoyi.common.utils.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 import ${packageName}.domain.${subClassName};
 #end
@@ -31,6 +36,8 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Autowired
     private ${ClassName}Mapper ${className}Mapper;
 
+    @Autowired
+    protected Validator validator;
     /**
      * 查询${functionName}
      * 
@@ -166,4 +173,43 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         }
     }
 #end
+    @Override
+    public String imporIteminfo(List<${ClassName}> ${className}List, boolean updateSupport, String operName) {
+        if (StringUtils.isNull(${className}List) || ${className}List.size() == 0)
+        {
+            throw new ServiceException("导入数据不能为空！");
+        }
+        int successNum = 0;
+        int failureNum = 0;
+        StringBuilder successMsg = new StringBuilder();
+        StringBuilder failureMsg = new StringBuilder();
+        for (${ClassName} ${className} : ${className}List)
+        {
+            try
+            {
+                BeanValidators.validateWithException(validator, ${className});
+                ${className}.setCreateBy(operName);
+                ${className}.setUpdateBy(operName);
+                this.insert${ClassName}(${className});
+                successNum++;
+                successMsg.append("<br/>" + successNum + "数据导入成功");
+            }
+            catch (Exception e)
+            {
+                failureNum++;
+                String msg = "<br/> 数据导入失败：";
+                failureMsg.append(msg + e.getMessage());
+            }
+        }
+        if (failureNum > 0)
+        {
+            failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
+            throw new ServiceException(failureMsg.toString());
+        }
+        else
+        {
+            successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
+        }
+        return successMsg.toString();
+    }
 }
