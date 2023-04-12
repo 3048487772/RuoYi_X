@@ -3,18 +3,18 @@ package ${packageName}.service.impl;
 import java.util.List;
 #foreach ($column in $columns)
 #if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
-import com.ruoyi.common.utils.DateUtils;
+import com.lxmes.common.utils.DateUtils;
 #break
 #end
 #end
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.bean.BeanValidators;
-import com.ruoyi.common.exception.ServiceException;
+#if($imported)
+import com.lxmes.common.utils.StringUtils;
+import com.lxmes.common.utils.bean.BeanValidators;
+import com.lxmes.common.exception.ServiceException;
 import javax.validation.Validator;
-
+#end
 #if($table.sub)
 import java.util.ArrayList;
 import org.springframework.transaction.annotation.Transactional;
@@ -173,6 +173,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         }
     }
 #end
+#if($imported)
     @Override
     public String imporIteminfo(List<${ClassName}> ${className}List, boolean updateSupport, String operName) {
         if (StringUtils.isNull(${className}List) || ${className}List.size() == 0)
@@ -212,4 +213,5 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         }
         return successMsg.toString();
     }
+#end    
 }

@@ -58,11 +58,12 @@ public interface I${ClassName}Service
      * @return 结果
      */
     public int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
-    
+#if($imported)
     /**
      * 导入${functionName}信息
      *
      * @return 结果
      */
     String imporIteminfo(List<${ClassName}> ${className}List, boolean updateSupport, String operName);
+#end    
 }

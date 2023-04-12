@@ -110,6 +110,7 @@
           v-hasPermi="['${moduleName}:${businessName}:export']"
         >导出</el-button>
       </el-col>
+#if($imported)      
       <el-col :span="1.5">
         <el-button
             type="info"
@@ -119,6 +120,7 @@
             @click="handleImport"
         >导入</el-button>
       </el-col>
+#end  
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -413,7 +415,9 @@
 
 <script>
 import { list${BusinessName}, get${BusinessName}, del${BusinessName}, add${BusinessName}, update${BusinessName} } from "@/api/${moduleName}/${businessName}";
+#if($imported)    
 import {getToken} from "@/utils/auth";
+#end
 export default {
   name: "${BusinessName}",
 #if(${dicts} != '')
@@ -670,6 +674,7 @@ export default {
         ...this.queryParams
       }, `${businessName}_#[[${new Date().getTime()}]]#.xlsx`)
     },
+#if($imported)
     /** 导入按钮操作 */
     handleImport() {
       this.upload.title = "${functionName}导入";
@@ -696,6 +701,7 @@ export default {
     submitFileForm() {
       this.$refs.upload.submit();
     },
+#end  
   }
 };
 </script>

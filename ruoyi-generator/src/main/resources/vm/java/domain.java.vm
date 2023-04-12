@@ -7,7 +7,7 @@ import ${import};
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 #end
-import com.ruoyi.common.annotation.Excel;
+import com.lxmes.common.annotation.Excel;
 #if($isSwagger)
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,9 +16,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 #end
 #if($table.crud || $table.sub)
-import com.ruoyi.common.core.domain.BaseEntity;
+import com.lxmes.common.core.domain.BaseEntity;
 #elseif($table.tree)
-import com.ruoyi.common.core.domain.TreeEntity;
+import com.lxmes.common.core.domain.TreeEntity;
 #end
 
 /**

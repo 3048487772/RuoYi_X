@@ -38,6 +38,33 @@ public class GenConfig
     
     /** 是否使用lombok注解 **/
     public static Boolean lombok;
+
+    /** 是否生成导入功能 **/
+    public static Boolean imported;
+
+    /**
+     * 默认生成方式
+     **/
+    public static String genType;
+
+    public static String getGenType() {
+        return genType;
+    }
+
+    @Value("${genType}")
+    public void setGenType(String genType) {
+        GenConfig.genType = genType;
+    }
+    
+    public static Boolean getImported() {
+        return imported;
+    }
+
+    @Value("${imported}")
+    public  void setImported(Boolean imported) {
+        GenConfig.imported = imported;
+    }
+
     public static Boolean getSwagger() {
         return swagger;
     }
