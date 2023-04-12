@@ -46,6 +46,20 @@ public class GenConfig
      * 默认生成方式
      **/
     public static String genType;
+    
+     /**
+     * 路径生成时是否覆盖已存在文件
+     **/
+    public static Boolean override;
+
+    public static Boolean getOverride() {
+        return override;
+    }
+
+    @Value("${override}")
+    public void setOverride(Boolean override) {
+        GenConfig.override = override;
+    }
 
     public static String getGenType() {
         return genType;

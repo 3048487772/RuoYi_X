@@ -266,13 +266,16 @@ public class GenTableServiceImpl implements IGenTableService
         List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
         for (String template : templates)
         {
+            String path = getGenPath(table, template);
+            if (!GenConfig.override &&new File(path).exists()) {
+                continue;
+            }
             if (!StrUtil.containsAny(template, "sql.vm")) {
                 // 渲染模板
                 StringWriter sw = new StringWriter();
                 Template tpl = Velocity.getTemplate(template, Constants.UTF8);
                 tpl.merge(context, sw);
                 try {
-                    String path = getGenPath(table, template);
                     FileUtils.writeStringToFile(new File(path), sw.toString(), CharsetKit.UTF_8);
                 } catch (IOException e) {
                     throw new ServiceException("渲染模板失败，表名：" + table.getTableName());

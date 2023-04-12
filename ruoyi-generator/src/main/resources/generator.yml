@@ -16,4 +16,10 @@ gen:
   swagger: true
   # 是否使用lombok注解 （需要引入lombok依赖）
   lombok: true
+  # 是否生成导入功能
+  imported: true
+  # 默认生成方式
+  genType: 1
+  # 路径生成时是否覆盖已存在文件
+  override: false
   
