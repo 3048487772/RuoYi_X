@@ -1,6 +1,9 @@
 package ${packageName}.service;
 
 import java.util.List;
+#if($mybatisPlus)
+import com.baomidou.mybatisplus.extension.service.IService;
+#end
 import ${packageName}.domain.${ClassName};
 
 /**
@@ -9,8 +12,7 @@ import ${packageName}.domain.${ClassName};
  * @author ${author}
  * @date ${datetime}
  */
-public interface I${ClassName}Service 
-{
+public interface I${ClassName}Service#if($mybatisPlus) extends IService<${ClassName}>#end{
     /**
      * 查询${functionName}
      * 
@@ -64,6 +66,6 @@ public interface I${ClassName}Service
      *
      * @return 结果
      */
-    String imporIteminfo(List<${ClassName}> ${className}List, boolean updateSupport, String operName);
+    String imporIteminfo(List<${ClassName}> ${className}List, boolean updateSupport);
 #end    
 }

@@ -4,8 +4,17 @@ package ${packageName}.domain;
 import ${import};
 #end
 #if($mybatisPlus)
+import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+#else
+#if($table.crud || $table.sub)
+import com.ruoyi.common.core.domain.BaseEntity;
+#elseif($table.tree)
+import com.ruoyi.common.core.domain.TreeEntity;
+#end
 #end
 #if(!$isLombok)
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -18,11 +27,6 @@ import io.swagger.annotations.ApiModelProperty;
 #end
 #if($isLombok)
 import lombok.Data;
-#end
-#if($table.crud || $table.sub)
-import com.ruoyi.common.core.domain.BaseEntity;
-#elseif($table.tree)
-import com.ruoyi.common.core.domain.TreeEntity;
 #end
 
 /**
@@ -45,23 +49,19 @@ import com.ruoyi.common.core.domain.TreeEntity;
 #if($isSwagger)
 @ApiModel(value = "${ClassName}", description = "${functionName}对象")    
 #end
-public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end
-{
+public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
     private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
 #if($mybatisPlus || !$table.isSuperColumn($column.javaField))
     /** $column.columnComment */
-#if($column.list)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
 #set($comment=$column.columnComment.substring(0, $parentheseIndex))
 #else
 #set($comment=$column.columnComment)
 #end
-#if($mybatisPlus)
-    @TableField("${column.columName}")
-#end
+#if($column.list)    
 #if($parentheseIndex != -1)
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
 #elseif($column.javaType == 'Date')
@@ -71,9 +71,16 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end
     @Excel(name = "${comment}")
 #end
 #end
-    #if($isSwagger)
-    @ApiModelProperty("${column.columnComment}")
-    #end
+#if($mybatisPlus)
+#if($column.pk)
+    @TableId(type = IdType.AUTO)
+#else
+    @TableField(value = "${column.columnName}"#if($column.queryType=='LIKE'),condition = SqlCondition.LIKE#end)
+#end
+#end
+#if($isSwagger)
+    @ApiModelProperty("${comment}")
+#end
     private $column.javaType $column.javaField;
 
 #end

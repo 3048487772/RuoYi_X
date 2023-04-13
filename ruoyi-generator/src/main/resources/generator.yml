@@ -23,4 +23,4 @@ gen:
   # 路径生成时是否覆盖已存在文件
   override: false
   # 是否生成mybatisplus(实体类注解  继承BaseMapper) 注意需要集成mybatisPlus到项目中
-  mybatisPlus: false
+  mybatisPlus: true

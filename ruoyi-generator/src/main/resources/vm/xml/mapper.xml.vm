@@ -54,6 +54,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 #end
 #end
         </where>
+#foreach ($column in $columns)
+#if($column.javaField == 'createTime')
+        ORDER BY create_time DESC
+#end
+#end
     </select>
     
     <select id="select${ClassName}By${pkColumn.capJavaField}" parameterType="${pkColumn.javaType}" resultMap="#if($table.sub)${ClassName}${subClassName}Result#else${ClassName}Result#end">

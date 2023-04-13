@@ -685,11 +685,11 @@ export default {
       this.download('${moduleName}/${businessName}/importTemplate', {
       }, `${functionName}模板.xlsx`)
     },
-    // 文件上传中处理
+    /** 文件上传中处理 */
     handleFileUploadProgress(event, file, fileList) {
       this.upload.isUploading = true;
     },
-    // 文件上传成功处理
+    /** 文件上传成功处理 */
     handleFileSuccess(response, file, fileList) {
       this.upload.open = false;
       this.upload.isUploading = false;
@@ -697,7 +697,7 @@ export default {
       this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "导入结果", { dangerouslyUseHTMLString: true });
       this.getList();
     },
-    // 提交上传文件
+    /** 提交上传文件 */
     submitFileForm() {
       this.$refs.upload.submit();
     },

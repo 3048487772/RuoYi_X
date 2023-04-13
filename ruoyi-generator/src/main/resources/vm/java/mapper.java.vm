@@ -15,8 +15,7 @@ import ${packageName}.domain.${subClassName};
  * @author ${author}
  * @date ${datetime}
  */
-public interface ${ClassName}Mapper#if($mybatisPlus) extends BaseMapper<${ClassName}>#end
-{
+public interface ${ClassName}Mapper#if($mybatisPlus) extends BaseMapper<${ClassName}>#end{
     /**
      * 查询${functionName}
      * 

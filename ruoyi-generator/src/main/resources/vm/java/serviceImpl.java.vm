@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import org.springframework.transaction.annotation.Transactional;
 import ${packageName}.domain.${subClassName};
 #end
+#if($mybatisPlus)
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+#end
 import ${packageName}.mapper.${ClassName}Mapper;
 import ${packageName}.domain.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
@@ -31,13 +35,14 @@ import ${packageName}.service.I${ClassName}Service;
  * @date ${datetime}
  */
 @Service
-public class ${ClassName}ServiceImpl implements I${ClassName}Service 
-{
+public class ${ClassName}ServiceImpl#if($mybatisPlus) extends ServiceImpl<${ClassName}Mapper,${ClassName}>#end implements I${ClassName}Service{
+    
     @Autowired
     private ${ClassName}Mapper ${className}Mapper;
-
+#if($imported)
     @Autowired
     protected Validator validator;
+#end
     /**
      * 查询${functionName}
      * 
@@ -45,9 +50,12 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @return ${functionName}
      */
     @Override
-    public ${ClassName} select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField})
-    {
+    public ${ClassName} select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField}){
+#if($mybatisPlus)
+        return ${className}Mapper.selectById(${pkColumn.javaField});
+#else
         return ${className}Mapper.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField});
+#end
     }
 
     /**
@@ -57,9 +65,12 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @return ${functionName}
      */
     @Override
-    public List<${ClassName}> select${ClassName}List(${ClassName} ${className})
-    {
+    public List<${ClassName}> select${ClassName}List(${ClassName} ${className}){
+#if($mybatisPlus)
+        return ${className}Mapper.selectList(Wrappers.lambdaQuery(${className}));
+#else
         return ${className}Mapper.select${ClassName}List(${className});
+#end
     }
 
     /**
@@ -72,8 +83,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Transactional
 #end
     @Override
-    public int insert${ClassName}(${ClassName} ${className})
-    {
+    public int insert${ClassName}(${ClassName} ${className}){
 #foreach ($column in $columns)
 #if($column.javaField == 'createTime')
         ${className}.setCreateTime(DateUtils.getNowDate());
@@ -84,7 +94,11 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         insert${subClassName}(${className});
         return rows;
 #else
+#if($mybatisPlus)
+        return ${className}Mapper.insert(${className});
+#else
         return ${className}Mapper.insert${ClassName}(${className});
+#end
 #end
     }
 
@@ -98,8 +112,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Transactional
 #end
     @Override
-    public int update${ClassName}(${ClassName} ${className})
-    {
+    public int update${ClassName}(${ClassName} ${className}){
 #foreach ($column in $columns)
 #if($column.javaField == 'updateTime')
         ${className}.setUpdateTime(DateUtils.getNowDate());
@@ -109,7 +122,11 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${className}.get${pkColumn.capJavaField}());
         insert${subClassName}(${className});
 #end
+#if($mybatisPlus)
+        return ${className}Mapper.updateById(${className});
+#else
         return ${className}Mapper.update${ClassName}(${className});
+#end
     }
 
     /**
@@ -122,8 +139,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Transactional
 #end
     @Override
-    public int delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s)
-    {
+    public int delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s){
 #if($table.sub)
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}s(${pkColumn.javaField}s);
 #end
@@ -140,12 +156,15 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Transactional
 #end
     @Override
-    public int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField})
-    {
+    public int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField}){
 #if($table.sub)
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${pkColumn.javaField});
 #end
+#if($mybatisPlus)
+        return ${className}Mapper.deleteById(${pkColumn.javaField});
+#else
         return ${className}Mapper.delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField});
+#end
     }
 #if($table.sub)
 
@@ -154,8 +173,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * 
      * @param ${className} ${functionName}对象
      */
-    public void insert${subClassName}(${ClassName} ${className})
-    {
+    public void insert${subClassName}(${ClassName} ${className}){
         List<${subClassName}> ${subclassName}List = ${className}.get${subClassName}List();
         ${pkColumn.javaType} ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();
         if (StringUtils.isNotNull(${subclassName}List))
@@ -175,7 +193,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
 #end
 #if($imported)
     @Override
-    public String imporIteminfo(List<${ClassName}> ${className}List, boolean updateSupport, String operName) {
+    public String imporIteminfo(List<${ClassName}> ${className}List, boolean updateSupport) {
         if (StringUtils.isNull(${className}List) || ${className}List.size() == 0)
         {
             throw new ServiceException("导入数据不能为空！");
@@ -189,8 +207,6 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
             try
             {
                 BeanValidators.validateWithException(validator, ${className});
-                ${className}.setCreateBy(operName);
-                ${className}.setUpdateBy(operName);
                 this.insert${ClassName}(${className});
                 successNum++;
                 successMsg.append("<br/>" + successNum + "数据导入成功");
