@@ -18,7 +18,7 @@ gen:
   lombok: true
   # 是否生成导入功能
   imported: true
-  # 默认生成方式
+  # 默认生成方式 (0、压缩包 1、路径生成)
   genType: 1
   # 路径生成时是否覆盖已存在文件
   override: false
