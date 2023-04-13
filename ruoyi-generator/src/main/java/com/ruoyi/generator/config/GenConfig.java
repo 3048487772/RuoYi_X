@@ -52,6 +52,20 @@ public class GenConfig
      **/
     public static Boolean override;
 
+    /**
+     * 是否生成mybatisplus
+     **/
+    public static Boolean  mybatisPlus;
+
+    public static Boolean getMybatisPlus() {
+        return mybatisPlus;
+    }
+
+    @Value("${mybatisPlus}")
+    public void setMybatisPlus(Boolean mybatisPlus) {
+        GenConfig.mybatisPlus = mybatisPlus;
+    }
+
     public static Boolean getOverride() {
         return override;
     }

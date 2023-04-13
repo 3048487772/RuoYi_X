@@ -3,6 +3,10 @@ package ${packageName}.domain;
 #foreach ($import in $importList)
 import ${import};
 #end
+#if($mybatisPlus)
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+#end
 #if(!$isLombok)
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -35,6 +39,9 @@ import com.lxmes.common.core.domain.TreeEntity;
 #if($isLombok)
 @Data
 #end
+#if($mybatisPlus)
+@TableName("${tableName}")
+#end
 #if($isSwagger)
 @ApiModel(value = "${ClassName}", description = "${functionName}对象")    
 #end
@@ -51,6 +58,9 @@ public class ${ClassName} extends ${Entity}
 #set($comment=$column.columnComment.substring(0, $parentheseIndex))
 #else
 #set($comment=$column.columnComment)
+#end
+#if($mybatisPlus)
+    @TableField("${column.columName}")
 #end
 #if($parentheseIndex != -1)
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
