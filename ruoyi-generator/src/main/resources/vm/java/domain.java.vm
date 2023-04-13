@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 #end
-import com.lxmes.common.annotation.Excel;
+import com.ruoyi.common.annotation.Excel;
 #if($isSwagger)
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,9 +20,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 #end
 #if($table.crud || $table.sub)
-import com.lxmes.common.core.domain.BaseEntity;
+import com.ruoyi.common.core.domain.BaseEntity;
 #elseif($table.tree)
-import com.lxmes.common.core.domain.TreeEntity;
+import com.ruoyi.common.core.domain.TreeEntity;
 #end
 
 /**
@@ -45,12 +45,12 @@ import com.lxmes.common.core.domain.TreeEntity;
 #if($isSwagger)
 @ApiModel(value = "${ClassName}", description = "${functionName}对象")    
 #end
-public class ${ClassName} extends ${Entity}
+public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end
 {
     private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
-#if(!$table.isSuperColumn($column.javaField))
+#if($mybatisPlus || !$table.isSuperColumn($column.javaField))
     /** $column.columnComment */
 #if($column.list)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
@@ -86,7 +86,7 @@ public class ${ClassName} extends ${Entity}
 
 #if(!$isLombok)
 #foreach ($column in $columns)
-#if(!$table.isSuperColumn($column.javaField))
+#if($mybatisPlus||!$table.isSuperColumn($column.javaField))
 #if($column.javaField.length() > 2 && $column.javaField.substring(1,2).matches("[A-Z]"))
 #set($AttrName=$column.javaField)
 #else

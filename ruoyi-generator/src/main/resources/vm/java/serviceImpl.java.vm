@@ -3,16 +3,16 @@ package ${packageName}.service.impl;
 import java.util.List;
 #foreach ($column in $columns)
 #if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
-import com.lxmes.common.utils.DateUtils;
+import com.ruoyi.common.utils.DateUtils;
 #break
 #end
 #end
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 #if($imported)
-import com.lxmes.common.utils.StringUtils;
-import com.lxmes.common.utils.bean.BeanValidators;
-import com.lxmes.common.exception.ServiceException;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.bean.BeanValidators;
+import com.ruoyi.common.exception.ServiceException;
 import javax.validation.Validator;
 #end
 #if($table.sub)
