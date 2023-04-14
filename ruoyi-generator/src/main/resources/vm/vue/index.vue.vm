@@ -468,6 +468,7 @@ export default {
 #end
 #end
       },
+#if($imported)
       upload: {
         // 是否显示弹出层
         open: false,
@@ -482,6 +483,7 @@ export default {
         // 上传的地址
         url: process.env.VUE_APP_BASE_API + "/${moduleName}/${businessName}/importData"
       },
+#end
       // 表单参数
       form: {},
       // 表单校验
