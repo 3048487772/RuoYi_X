@@ -5,10 +5,6 @@ import ${import};
 #end
 #if($mybatisPlus)
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.annotation.SqlCondition;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 #else
 #if($table.crud || $table.sub)
 import com.ruoyi.common.core.domain.BaseEntity;
@@ -76,6 +72,9 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
     @TableId(type = IdType.AUTO)
 #else
     @TableField(value = "${column.columnName}"#if($column.queryType=='LIKE'),condition = SqlCondition.LIKE#end)
+#end
+#if($column.columnName=='create_time')
+    @OrderBy
 #end
 #end
 #if($isSwagger)
