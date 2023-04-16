@@ -1,16 +1,7 @@
-package ${packageName}.domain;
+package ${packageName}.domain.vo;
 
 #foreach ($import in $importList)
 import ${import};
-#end
-#if($mybatisPlus)
-import com.baomidou.mybatisplus.annotation.*;
-#else
-#if($table.crud || $table.sub)
-import com.ruoyi.common.core.domain.BaseEntity;
-#elseif($table.tree)
-import com.ruoyi.common.core.domain.TreeEntity;
-#end
 #end
 #if(!$isLombok)
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -26,30 +17,22 @@ import lombok.Data;
 #end
 
 /**
- * ${functionName}对象 ${tableName}
+ * ${functionName}修改入参对象 ${tableName}
  * 
  * @author ${author}
  * @date ${datetime}
  */
-#if($table.crud || $table.sub)
-#set($Entity="BaseEntity")
-#elseif($table.tree)
-#set($Entity="TreeEntity")
-#end
 #if($isLombok)
 @Data
 #end
-#if($mybatisPlus)
-@TableName("${tableName}")
+#if($isSwagger)
+@ApiModel(value = "${ClassName}ResultVO", description = "${functionName}修改入参对象")
 #end
-#if($isSwagger&&!$paramEntity)
-@ApiModel(value = "${ClassName}", description = "${functionName}对象")    
-#end
-public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
+public class ${ClassName}ResultVO{
     private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
-#if($mybatisPlus || !$table.isSuperColumn($column.javaField))
+#if($column.list && !$table.isSuperColumn($column.javaField))
     /** $column.columnComment */
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
@@ -57,42 +40,17 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
 #else
 #set($comment=$column.columnComment)
 #end
-#if($column.list&&!$paramEntity)
-#if($parentheseIndex != -1)
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
-#elseif($column.javaType == 'Date')
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Excel(name = "${comment}", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
-#else
-    @Excel(name = "${comment}")
-#end
-#end
-#if($mybatisPlus)
-#if($column.pk)
-    @TableId(type = IdType.AUTO)
-#else
-    @TableField(value = "${column.columnName}"#if($column.queryType=='LIKE'),condition = SqlCondition.LIKE#end)
-#end
-#if($column.columnName=='create_time')
-    @OrderBy
-#end
-#end
-#if($isSwagger&&!$paramEntity)
+#if($isSwagger)
     @ApiModelProperty("${comment}")
 #end
     private $column.javaType $column.javaField;
 
 #end
 #end
-#if($table.sub)
-    /** $table.subTable.functionName信息 */
-    private List<${subClassName}> ${subclassName}List;
-
-#end
 
 #if(!$isLombok)
 #foreach ($column in $columns)
-#if($mybatisPlus||!$table.isSuperColumn($column.javaField))
+#if($column.list||!$table.isSuperColumn($column.javaField))
 #if($column.javaField.length() > 2 && $column.javaField.substring(1,2).matches("[A-Z]"))
 #set($AttrName=$column.javaField)
 #else
@@ -109,19 +67,6 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
     }
 #end
 #end
-
-#if($table.sub)
-    public List<${subClassName}> get${subClassName}List()
-    {
-        return ${subclassName}List;
-    }
-
-    public void set${subClassName}List(List<${subClassName}> ${subclassName}List)
-    {
-        this.${subclassName}List = ${subclassName}List;
-    }
-
-#end
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -132,9 +77,6 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
 #end
             .append("${column.javaField}", get${AttrName}())
-#end
-#if($table.sub)
-            .append("${subclassName}List", get${subClassName}List())
 #end
             .toString();
     }
