@@ -134,6 +134,7 @@ public class VelocityUtils {
         templates.add("vm/java/domain.java.vm");
         templates.add("vm/java/createVO.java.vm");
         templates.add("vm/java/updateVO.java.vm");
+        templates.add("vm/java/searchVO.java.vm");
         templates.add("vm/java/resultVO.java.vm");
         templates.add("vm/java/mapper.java.vm");
         templates.add("vm/java/service.java.vm");
@@ -169,6 +170,8 @@ public class VelocityUtils {
         String moduleName = genTable.getModuleName();
         // 大写类名
         String className = genTable.getClassName();
+        // 小写类名
+        String lowerCaseClassName = StringUtils.uncapitalize(genTable.getClassName());
         // 业务名称
         String businessName = genTable.getBusinessName();
 
@@ -182,16 +185,19 @@ public class VelocityUtils {
             vuePath = "vue/";
         }
         if (template.contains("domain.java.vm")) {
-            fileName = StringUtils.format("{}/domain/{}.java", javaPath, className);
+            fileName = StringUtils.format("{}/domain/{}.java" , javaPath, className);
         }
         if (template.contains("createVO.java.vm")) {
-            fileName = StringUtils.format("{}/domain/vo/{}CreateVO.java", javaPath, className);
+            fileName = StringUtils.format("{}/domain/{}VO/{}CreateVO.java" , javaPath, lowerCaseClassName, className);
         }
         if (template.contains("updateVO.java.vm")) {
-            fileName = StringUtils.format("{}/domain/vo/{}UpdateVO.java", javaPath, className);
+            fileName = StringUtils.format("{}/domain/{}VO/{}UpdateVO.java" , javaPath, lowerCaseClassName, className);
         }
         if (template.contains("resultVO.java.vm")) {
-            fileName = StringUtils.format("{}/domain/vo/{}ResultVO.java", javaPath, className);
+            fileName = StringUtils.format("{}/domain/{}VO/{}ResultVO.java" , javaPath, lowerCaseClassName, className);
+        }
+        if (template.contains("searchVO.java.vm")) {
+            fileName = StringUtils.format("{}/domain/{}VO/{}SearchVO.java" , javaPath, lowerCaseClassName, className);
         }
         if (template.contains("sub-domain.java.vm") && StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {
             fileName = StringUtils.format("{}/domain/{}.java", javaPath, genTable.getSubTable().getClassName());

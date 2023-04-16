@@ -1,6 +1,8 @@
 package ${packageName}.controller;
 
 import java.util.List;
+import com.ruoyi.bis.domain.${className}VO.*;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +58,11 @@ public class ${ClassName}Controller extends BaseController{
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:list')")
     @GetMapping("/list")
 #if($table.crud || $table.sub)
-    public TableDataInfo list(${ClassName} ${className}){
+    public TableDataInfo list(${ClassName}SearchVO ${className}){
         startPage();
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        ${ClassName} target = new ${ClassName}();
+        BeanUtils.copyProperties(${className}, target);
+        List<${ClassName}> list = ${className}Service.select${ClassName}List(target);
         return getDataTable(list);
     }
 #elseif($table.tree)
@@ -104,8 +108,10 @@ public class ${ClassName}Controller extends BaseController{
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:add')")
     @Log(title = "${functionName}", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ${ClassName} ${className}){
-        return toAjax(${className}Service.insert${ClassName}(${className}));
+    public AjaxResult add(@RequestBody ${ClassName}CreateVO ${className}){
+        ${ClassName} target = new ${ClassName}();
+        BeanUtils.copyProperties(${className}, target);
+        return toAjax(${className}Service.insert${ClassName}(target));
     }
 
     /**
@@ -117,8 +123,10 @@ public class ${ClassName}Controller extends BaseController{
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:edit')")
     @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ${ClassName} ${className}){
-        return toAjax(${className}Service.update${ClassName}(${className}));
+    public AjaxResult edit(@RequestBody ${ClassName}UpdateVO ${className}){
+        ${ClassName} target = new ${ClassName}();
+        BeanUtils.copyProperties(${className}, target);
+        return toAjax(${className}Service.update${ClassName}(target));
     }
 
     /**

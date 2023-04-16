@@ -42,9 +42,6 @@ import lombok.Data;
 #if($mybatisPlus)
 @TableName("${tableName}")
 #end
-#if($isSwagger&&!$paramEntity)
-@ApiModel(value = "${ClassName}", description = "${functionName}对象")    
-#end
 public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
     private static final long serialVersionUID = 1L;
 
@@ -76,9 +73,6 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
 #if($column.columnName=='create_time')
     @OrderBy
 #end
-#end
-#if($isSwagger&&!$paramEntity)
-    @ApiModelProperty("${comment}")
 #end
     private $column.javaType $column.javaField;
 
