@@ -1,8 +1,8 @@
 package ${packageName}.controller;
 
 import java.util.List;
+import cn.hutool.core.bean.BeanUtil;
 import com.ruoyi.bis.domain.${className}VO.*;
-import com.ruoyi.common.utils.bean.BeanUtils;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,9 +60,7 @@ public class ${ClassName}Controller extends BaseController{
 #if($table.crud || $table.sub)
     public TableDataInfo list(${ClassName}SearchVO ${className}){
         startPage();
-        ${ClassName} target = new ${ClassName}();
-        BeanUtils.copyProperties(${className}, target);
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(target);
+        List<${ClassName}> list = ${className}Service.select${ClassName}List(BeanUtil.copyProperties(${className},${ClassName}.class));
         return getDataTable(list);
     }
 #elseif($table.tree)
@@ -109,9 +107,7 @@ public class ${ClassName}Controller extends BaseController{
     @Log(title = "${functionName}", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ${ClassName}CreateVO ${className}){
-        ${ClassName} target = new ${ClassName}();
-        BeanUtils.copyProperties(${className}, target);
-        return toAjax(${className}Service.insert${ClassName}(target));
+        return toAjax(${className}Service.insert${ClassName}(BeanUtil.copyProperties(${className},${ClassName}.class)));
     }
 
     /**
@@ -124,9 +120,7 @@ public class ${ClassName}Controller extends BaseController{
     @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ${ClassName}UpdateVO ${className}){
-        ${ClassName} target = new ${ClassName}();
-        BeanUtils.copyProperties(${className}, target);
-        return toAjax(${className}Service.update${ClassName}(target));
+        return toAjax(${className}Service.update${ClassName}(BeanUtil.copyProperties(${className},${ClassName}.class)));
     }
 
     /**

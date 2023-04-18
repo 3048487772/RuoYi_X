@@ -32,6 +32,7 @@
         <jwt.version>0.9.1</jwt.version>
         <hutool.version>5.8.15</hutool.version>
         <mybatis-plus-spring-boot.version>3.5.2</mybatis-plus-spring-boot.version>
+        <knife4j.version>3.0.2</knife4j.version>
     </properties>
 	
     <!-- 依赖声明 -->
@@ -154,6 +155,13 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+
 
 
             <!-- 定时任务-->

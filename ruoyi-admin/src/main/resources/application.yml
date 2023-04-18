@@ -102,10 +102,11 @@ token:
 
 # MyBatis-Plus配置
 mybatis-plus:
-  config-location: classpath:mybatis/mybatis-config.xml
-  type-aliases-package: com.ruoyi.**.domain
-  mapper-locations: classpath*:mapper/**/*Mapper.xml
-
+  type-aliases-package: com.**.**.domain
+  global-config:
+    db-config:
+      where-strategy: not_empty
+  mapper-locations: classpath*:/mapper/**/*.xml
 # PageHelper分页插件
 pagehelper: 
   helperDialect: mysql

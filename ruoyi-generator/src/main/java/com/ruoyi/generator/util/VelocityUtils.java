@@ -176,7 +176,7 @@ public class VelocityUtils {
         String businessName = genTable.getBusinessName();
 
         String javaPath = PROJECT_PATH + "/" + StringUtils.replace(packageName, ".", "/");
-        String mybatisPath = MYBATIS_PATH;
+        String mybatisPath = MYBATIS_PATH + "/" + moduleName;
 
         String vuePath;
         if (gen) {

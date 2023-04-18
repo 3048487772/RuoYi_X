@@ -8,6 +8,8 @@ gen:
   autoRemovePre: true
   # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）
   tablePrefix: sys_,bis_
+  # 默认生成方式 (0、压缩包 1、路径生成)
+  genType: 1
   # 生成代码时后端名称
   backModuleName: ruoyi-bussiness
   # 生成代码时前端名称
@@ -17,9 +19,7 @@ gen:
   # 是否使用lombok注解 （需要引入lombok依赖）
   lombok: true
   # 是否生成导入功能
-  imported: true
-  # 默认生成方式 (0、压缩包 1、路径生成)
-  genType: 1
+  imported: false
   # 路径生成时是否覆盖已存在文件
   override: false
   # 是否生成mybatisplus(实体类注解  继承BaseMapper) 注意需要集成mybatisPlus到项目中
