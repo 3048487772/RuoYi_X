@@ -198,5 +198,8 @@
 	<delete id="deleteMenuById" parameterType="Long">
 	    delete from sys_menu where menu_id = #{menuId}
 	</delete>
+    <delete id="deleteMenuByParentId">
+		delete from sys_menu where parent_id = #{menuId}
+	</delete>
 
 </mapper> 

@@ -187,6 +187,7 @@ import {listTable, previewTable, delTable, genCode, synchDb, createMenu} from "@
 import importTable from "./importTable";
 import hljs from "highlight.js/lib/highlight";
 import "highlight.js/styles/github-gist.css";
+import {delMenu} from "@/api/system/menu";
 hljs.registerLanguage("java", require("highlight.js/lib/languages/java"));
 hljs.registerLanguage("xml", require("highlight.js/lib/languages/xml"));
 hljs.registerLanguage("html", require("highlight.js/lib/languages/xml"));
@@ -279,10 +280,15 @@ export default {
     },
     //创建菜单
     handleCreateMenu(row){
-      createMenu(row.tableName).then(response => {
-        this.$modal.msgSuccess("创建菜单成功");
-        window.location.reload()
+      this.$modal.confirm('是否确认创建'+row.functionName+'的菜单').then(function () {
+        return delMenu(row.menuId);
+      }).then(() => {
+        createMenu(row.tableName).then(response => {
+          this.$modal.msgSuccess("创建菜单成功");
+          window.location.reload()
+        });
       });
+
     },
     /** 同步数据库操作 */
     handleSynchDb(row) {

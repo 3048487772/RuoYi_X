@@ -1,6 +1,8 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
+
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -127,14 +129,17 @@ public class SysMenuController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:menu:remove')")
     @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{menuId}")
-    public AjaxResult remove(@PathVariable("menuId") Long menuId)
-    {
-        if (menuService.hasChildByMenuId(menuId))
-        {
-            return warn("存在子菜单,不允许删除");
+    public AjaxResult remove(@PathVariable("menuId") Long menuId) {
+        if (menuService.hasChildByMenuId(menuId)) {
+            SysMenu sysMenu = menuService.selectMenuById(menuId);
+            if (StrUtil.equals(sysMenu.getMenuType(), "C")) {
+                menuService.deleteMenuByParentId(menuId);
+                return toAjax(menuService.deleteMenuById(menuId));
+            } else {
+                return warn("存在子菜单,不允许删除");
+            }
         }
-        if (menuService.checkMenuExistRole(menuId))
-        {
+        if (menuService.checkMenuExistRole(menuId)) {
             return warn("菜单已分配,不允许删除");
         }
         return toAjax(menuService.deleteMenuById(menuId));

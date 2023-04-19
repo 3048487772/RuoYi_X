@@ -346,6 +346,11 @@ public class SysMenuServiceImpl implements ISysMenuService
         return UserConstants.UNIQUE;
     }
 
+    @Override
+    public int deleteMenuByParentId(Long menuId) {
+        return menuMapper.deleteMenuByParentId(menuId);
+    }
+
     /**
      * 获取路由名称
      * 
