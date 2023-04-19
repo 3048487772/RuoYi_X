@@ -533,6 +533,7 @@ public class GenTableServiceImpl implements IGenTableService
             genTable.setParentMenuId(parentMenuId);
             genTable.setParentMenuName(parentMenuName);
         }
+        genTable.setParams(paramsObj);
     }
 
 

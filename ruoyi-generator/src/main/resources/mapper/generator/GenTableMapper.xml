@@ -148,6 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="functionAuthor != null and functionAuthor != ''">function_author,</if>
 			<if test="genType != null and genType != ''">gen_type,</if>
 			<if test="genPath != null and genPath != ''">gen_path,</if>
+			<if test="options != null and options != ''">options,</if>
 			<if test="remark != null and remark != ''">remark,</if>
  			<if test="createBy != null and createBy != ''">create_by,</if>
 			create_time
@@ -163,6 +164,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="functionAuthor != null and functionAuthor != ''">#{functionAuthor},</if>
 			<if test="genType != null and genType != ''">#{genType},</if>
 			<if test="genPath != null and genPath != ''">#{genPath},</if>
+			<if test="options != null and options != ''">#{options},</if>
 			<if test="remark != null and remark != ''">#{remark},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>
 			sysdate()

@@ -67,10 +67,9 @@ public class VelocityUtils {
         velocityContext.put("columns", genTable.getColumns());
         velocityContext.put("table", genTable);
         velocityContext.put("dicts", getDicts(genTable));
-        velocityContext.put("isSwagger", GenConfig.getSwagger());
-        velocityContext.put("isLombok", GenConfig.getLombok());
-        velocityContext.put("imported", GenConfig.getImported());
-        velocityContext.put("mybatisPlus", GenConfig.getMybatisPlus());
+        genTable.getOptionsMap().forEach((k,v)->{
+            velocityContext.put(k, v);
+        });
         setMenuVelocityContext(velocityContext, genTable);
         if (GenConstants.TPL_TREE.equals(tplCategory)) {
             setTreeVelocityContext(velocityContext, genTable);

@@ -1,6 +1,6 @@
 # 代码生成
 gen: 
-  # 作者
+  # 作者 中文到前端会是乱码
   author: wdf
   # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
   packageName: com.ruoyi.bis
@@ -10,10 +10,6 @@ gen:
   tablePrefix: sys_,bis_
   # 默认生成方式 (0、压缩包 1、路径生成)
   genType: 1
-  # 生成代码时后端名称
-  backModuleName: ruoyi-bussiness
-  # 生成代码时前端名称
-  frontModuleName: ruoyi-ui
   # 是否生成swagger注解 (模块需要引入swagger依赖,否则生成出的内容报错)
   swagger: true
   # 是否使用lombok注解 （需要引入lombok依赖）
@@ -24,3 +20,9 @@ gen:
   override: false
   # 是否生成mybatisplus(实体类注解  继承BaseMapper) 注意需要集成mybatisPlus到项目中
   mybatisPlus: true
+  
+  
+  # 生成代码时后端名称
+  backModuleName: ruoyi-bussiness
+  # 生成代码时前端名称
+  frontModuleName: ruoyi-ui

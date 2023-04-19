@@ -1,6 +1,7 @@
 package com.ruoyi.generator.util;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSON;
 import com.ruoyi.common.constant.GenConstants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.generator.config.GenConfig;
@@ -8,6 +9,7 @@ import com.ruoyi.generator.domain.GenTable;
 import com.ruoyi.generator.domain.GenTableColumn;
 import org.apache.commons.lang3.RegExUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 /**
@@ -27,9 +29,19 @@ public class GenUtils
         genTable.setModuleName(getModuleName(GenConfig.getPackageName()));
         genTable.setBusinessName(convertClassName(genTable.getTableName()));
         genTable.setFunctionName(replaceText(genTable.getTableComment()));
-        genTable.setFunctionAuthor(GenConfig.getAuthor());
+        try {
+            genTable.setFunctionAuthor(new String(GenConfig.getAuthor().getBytes("UTF-8")));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         genTable.setCreateBy(operName);
         genTable.setGenType(GenConfig.getGenType());
+        genTable.addParams("mybatisPlus", GenConfig.getMybatisPlus());
+        genTable.addParams("lombok", GenConfig.getLombok());
+        genTable.addParams("swagger", GenConfig.getSwagger());
+        genTable.addParams("imported", GenConfig.getImported());
+        String options = JSON.toJSONString(genTable.getParams());
+        genTable.setOptions(options);
     }
 
     /**

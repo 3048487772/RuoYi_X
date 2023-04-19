@@ -1,13 +1,21 @@
 package com.ruoyi.generator.domain;
 
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.constant.GenConstants;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.utils.StringUtils;
+import io.swagger.util.Json;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.poi.ss.formula.functions.T;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 业务表 gen_table
@@ -80,7 +88,7 @@ public class GenTable extends BaseEntity
 
     /** 其它生成选项 */
     private String options;
-
+    
     /** 树编码字段 */
     private String treeCode;
 
@@ -95,6 +103,7 @@ public class GenTable extends BaseEntity
 
     /** 上级菜单名称字段 */
     private String parentMenuName;
+
 
     public Long getTableId()
     {
@@ -369,5 +378,14 @@ public class GenTable extends BaseEntity
                     ArrayUtils.addAll(GenConstants.TREE_ENTITY, GenConstants.BASE_ENTITY));
         }
         return StringUtils.equalsAnyIgnoreCase(javaField, GenConstants.BASE_ENTITY);
+    }
+
+
+    public Map<String, Object> getOptionsMap() {
+        if (StrUtil.isEmpty(this.options)) {
+            return new HashMap<>();
+        }
+        JSONObject jsonObject = JSON.parseObject(this.options);
+        return jsonObject;
     }
 }

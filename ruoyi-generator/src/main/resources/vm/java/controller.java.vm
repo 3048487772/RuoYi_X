@@ -22,7 +22,7 @@ import com.ruoyi.common.enums.BusinessType;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 #end
-#if($isSwagger)
+#if($swagger)
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 #end
@@ -40,7 +40,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @author ${author}
  * @date ${datetime}
  */
-#if($isSwagger)
+#if($swagger)
 @Api(tags = "${functionName}")    
 #end
 @RestController
@@ -52,7 +52,7 @@ public class ${ClassName}Controller extends BaseController{
     /**
      * 查询${functionName}列表
      */
-    #if($isSwagger)
+    #if($swagger)
     @ApiOperation("查询${functionName}列表")
     #end
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:list')")
@@ -73,7 +73,7 @@ public class ${ClassName}Controller extends BaseController{
     /**
      * 导出${functionName}列表
      */
-    #if($isSwagger)
+    #if($swagger)
     @ApiOperation("导出${functionName}列表")
     #end
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:export')")
@@ -88,7 +88,7 @@ public class ${ClassName}Controller extends BaseController{
     /**
      * 获取${functionName}详细信息
      */
-    #if($isSwagger)
+    #if($swagger)
     @ApiOperation("获取${functionName}详细信息")
     #end
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:query')")
@@ -100,7 +100,7 @@ public class ${ClassName}Controller extends BaseController{
     /**
      * 新增${functionName}
      */
-    #if($isSwagger)
+    #if($swagger)
     @ApiOperation("新增${functionName}")
     #end
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:add')")
@@ -113,7 +113,7 @@ public class ${ClassName}Controller extends BaseController{
     /**
      * 修改${functionName}
      */
-    #if($isSwagger)
+    #if($swagger)
     @ApiOperation("修改${functionName}")
     #end
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:edit')")
@@ -126,7 +126,7 @@ public class ${ClassName}Controller extends BaseController{
     /**
      * 删除${functionName}
      */
-    #if($isSwagger)
+    #if($swagger)
     @ApiOperation("删除${functionName}")
     #end
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:remove')")

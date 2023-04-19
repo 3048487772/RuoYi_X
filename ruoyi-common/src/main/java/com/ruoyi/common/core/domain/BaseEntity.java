@@ -115,4 +115,11 @@ public class BaseEntity implements Serializable
     {
         this.params = params;
     }
+    public void addParams(String key, Object value) {
+        if (params == null)
+        {
+            params = new HashMap<>();
+        }
+        this.params.put(key, value);
+    }
 }

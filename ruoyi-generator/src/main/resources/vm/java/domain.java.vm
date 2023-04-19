@@ -12,16 +12,16 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.core.domain.TreeEntity;
 #end
 #end
-#if(!$isLombok)
+#if(!$lombok)
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 #end
 import com.ruoyi.common.annotation.Excel;
-#if($isSwagger)
+#if($swagger)
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 #end
-#if($isLombok)
+#if($lombok)
 import lombok.Data;
 #end
 
@@ -36,7 +36,7 @@ import lombok.Data;
 #elseif($table.tree)
 #set($Entity="TreeEntity")
 #end
-#if($isLombok)
+#if($lombok)
 @Data
 #end
 #if($mybatisPlus)
@@ -61,7 +61,7 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "${comment}", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
 #else
-    @Excel(name = "${comment}")
+    @Excel(name = "${comment}"#if($column.htmlType=='imageUpload'),cellType = Excel.ColumnType.IMAGE#end)
 #end
 #end
 #if($mybatisPlus)
@@ -84,7 +84,7 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
 
 #end
 
-#if(!$isLombok)
+#if(!$lombok)
 #foreach ($column in $columns)
 #if($mybatisPlus||!$table.isSuperColumn($column.javaField))
 #if($column.javaField.length() > 2 && $column.javaField.substring(1,2).matches("[A-Z]"))
