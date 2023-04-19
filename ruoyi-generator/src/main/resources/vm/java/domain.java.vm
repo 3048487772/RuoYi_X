@@ -54,6 +54,9 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
 #else
 #set($comment=$column.columnComment)
 #end
+#if($column.javaType == 'Date')
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+#end
 #if($mybatisPlus)
 #if($column.pk)
     @TableId(type = IdType.AUTO)

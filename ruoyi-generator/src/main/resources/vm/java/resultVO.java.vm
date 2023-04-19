@@ -32,7 +32,7 @@ public class ${ClassName}ResultVO{
     private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
-#if($column.list && !$table.isSuperColumn($column.javaField))
+#if(($column.list||$column.pk) && !$table.isSuperColumn($column.javaField))
     /** $column.columnComment */
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
@@ -58,7 +58,7 @@ public class ${ClassName}ResultVO{
     
 #if(!$lombok)
 #foreach ($column in $columns)
-#if($column.list &&!$table.isSuperColumn($column.javaField))
+#if(($column.list||$column.pk) && !$table.isSuperColumn($column.javaField))
 #if($column.javaField.length() > 2 && $column.javaField.substring(1,2).matches("[A-Z]"))
 #set($AttrName=$column.javaField)
 #else

@@ -41,8 +41,8 @@
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-date-picker clearable
           v-model="queryParams.${column.javaField}"
-          type="date"
-          value-format="yyyy-MM-dd"
+          type="datetime"
+          value-format="yyyy-MM-dd HH:mm:ss"
           placeholder="请选择${comment}">
         </el-date-picker>
       </el-form-item>
