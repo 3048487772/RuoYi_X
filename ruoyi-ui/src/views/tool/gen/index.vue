@@ -147,6 +147,13 @@
             @click="handleGenTable(scope.row)"
             v-hasPermi="['tool:gen:code']"
           >生成代码</el-button>
+          <el-button
+            type="text"
+            size="small"
+            icon="el-icon-menu"
+            @click="handleCreateMenu(scope.row)"
+            v-hasPermi="['tool:gen:createMenu']"
+          >创建菜单</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -176,7 +183,7 @@
 </template>
 
 <script>
-import { listTable, previewTable, delTable, genCode, synchDb } from "@/api/tool/gen";
+import {listTable, previewTable, delTable, genCode, synchDb, createMenu} from "@/api/tool/gen";
 import importTable from "./importTable";
 import hljs from "highlight.js/lib/highlight";
 import "highlight.js/styles/github-gist.css";
@@ -269,6 +276,13 @@ export default {
       } else {
         this.$download.zip("/tool/gen/batchGenCode?tables=" + tableNames, "ruoyi.zip");
       }
+    },
+    //创建菜单
+    handleCreateMenu(row){
+      createMenu(row.tableName).then(response => {
+        this.$modal.msgSuccess("创建菜单成功");
+        window.location.reload()
+      });
     },
     /** 同步数据库操作 */
     handleSynchDb(row) {

@@ -280,19 +280,30 @@ public class GenTableServiceImpl implements IGenTableService
                 } catch (IOException e) {
                     throw new ServiceException("渲染模板失败，表名：" + table.getTableName());
                 }
-            } else {
-                if (StrUtil.contains(table.getRemark(), "sql")) {
-                    // 渲染模板
-                    StringWriter sw = new StringWriter();
-                    Template tpl = Velocity.getTemplate(template, Constants.UTF8);
-                    tpl.merge(context, sw);
-                    runScript(sw.toString());
-                    GenTable genTable = genTableMapper.selectGenTableById(table.getTableId());
-                    genTable.setRemark(StrUtil.removeAll(genTable.getRemark(), "sql"));
-                    genTableMapper.updateGenTable(genTable);
-                }
-            } 
+            }
         }
+    }
+
+    @Override
+    public void createMenu(String tableName) {
+        // 查询表信息
+        GenTable table = genTableMapper.selectGenTableByName(tableName);
+        // 设置主子表信息
+        setSubTable(table);
+        // 设置主键列信息
+        setPkColumn(table);
+
+        VelocityInitializer.initVelocity();
+
+        VelocityContext context = VelocityUtils.prepareContext(table);
+
+        String template = "vm/sql/sql.vm";
+        
+        // 渲染模板
+        StringWriter sw = new StringWriter();
+        Template tpl = Velocity.getTemplate(template, Constants.UTF8);
+        tpl.merge(context, sw);
+        runScript(sw.toString());
     }
 
     /**
@@ -460,6 +471,8 @@ public class GenTableServiceImpl implements IGenTableService
             }
         }
     }
+
+
 
     /**
      * 设置主键列信息

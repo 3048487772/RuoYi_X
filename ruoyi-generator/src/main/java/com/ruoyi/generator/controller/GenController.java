@@ -174,6 +174,18 @@ public class GenController extends BaseController
     }
 
     /**
+     * 运行创建菜单sql
+     */
+    @PreAuthorize("@ss.hasPermi('tool:gen:createMenu')")
+    @Log(title = "运行创建菜单sql", businessType = BusinessType.GENCODE)
+    @GetMapping("/createMenu/{tableName}")
+    public AjaxResult createMenu(@PathVariable("tableName") String tableName)
+    {
+        genTableService.createMenu(tableName);
+        return success();
+    }
+
+    /**
      * 同步数据库
      */
     @PreAuthorize("@ss.hasPermi('tool:gen:edit')")

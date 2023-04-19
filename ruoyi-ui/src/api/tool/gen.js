@@ -67,6 +67,14 @@ export function genCode(tableName) {
   })
 }
 
+// 创建菜单
+export function createMenu(tableName) {
+  return request({
+    url: '/tool/gen/createMenu/' + tableName,
+    method: 'get'
+  })
+}
+
 // 同步数据库
 export function synchDb(tableName) {
   return request({

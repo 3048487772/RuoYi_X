@@ -118,4 +118,8 @@ public interface IGenTableService
      * @param genTable 业务信息
      */
     public void validateEdit(GenTable genTable);
+
+
+    /** 创建菜单 */
+    void createMenu(String tableName);
 }
