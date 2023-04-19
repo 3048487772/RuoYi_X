@@ -114,4 +114,6 @@ public class GenConstants
 
     /** 需要 */
     public static final String REQUIRE = "1";
+    /** 不需要 */
+    public static final String UNREQUIRE = "0";
 }

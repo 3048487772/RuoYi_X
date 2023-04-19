@@ -3,6 +3,8 @@ package ${packageName}.controller;
 import java.util.List;
 import cn.hutool.core.bean.BeanUtil;
 import com.ruoyi.bis.domain.${className}VO.*;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.lang.TypeReference;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +63,8 @@ public class ${ClassName}Controller extends BaseController{
     public TableDataInfo list(${ClassName}SearchVO ${className}){
         startPage();
         List<${ClassName}> list = ${className}Service.select${ClassName}List(BeanUtil.copyProperties(${className},${ClassName}.class));
-        return getDataTable(list);
-    }
+        return getDataTable(Convert.convert(new TypeReference<List<${ClassName}ResultVO>>() {},list));
+}
 #elseif($table.tree)
     public AjaxResult list(${ClassName} ${className}){
         List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
@@ -81,8 +83,9 @@ public class ${ClassName}Controller extends BaseController{
     @PostMapping("/export")
     public void export(HttpServletResponse response, ${ClassName} ${className}){
         List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-        ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
-        util.exportExcel(response, list, "${functionName}数据");
+        List<${ClassName}ExportVO> exportList = Convert.convert(new TypeReference<List<${ClassName}ExportVO>>() {}, list);
+        ExcelUtil<${ClassName}ExportVO> util = new ExcelUtil<${ClassName}ExportVO>(${ClassName}ExportVO.class);
+        util.exportExcel(response, exportList, "${functionName}数据");
     }
 
     /**

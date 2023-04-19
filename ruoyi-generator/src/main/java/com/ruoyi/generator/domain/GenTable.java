@@ -388,4 +388,12 @@ public class GenTable extends BaseEntity
         JSONObject jsonObject = JSON.parseObject(this.options);
         return jsonObject;
     }
+    public <T> T getOptionByKey(String key,Class<T> clazz) {
+        if (StrUtil.isEmpty(this.options)) {
+            return null;
+        }
+        JSONObject jsonObject = JSON.parseObject(this.options);
+        T obj = Convert.convert(clazz, jsonObject.get(key));
+        return obj;
+    }
 }

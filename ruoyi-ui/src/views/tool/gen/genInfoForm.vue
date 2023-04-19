@@ -90,7 +90,30 @@
           <el-radio v-model="info.genType" label="1">自定义路径</el-radio>
         </el-form-item>
       </el-col>
-
+      <el-col :span="12" v-if="info.genType == '1'">
+        <el-col :span="12">
+          <el-form-item prop="genType">
+            <span slot="label">
+            后端模块名
+            <el-tooltip content="后端模块名称" placement="top">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </span>
+            <el-input v-model="info.params.backModuleName"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="genType">
+            <span slot="label">
+            前端文件夹
+            <el-tooltip content="前端文件夹名称" placement="top">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </span>
+            <el-input v-model="info.params.frontModuleName"/>
+          </el-form-item>
+        </el-col>
+      </el-col>
       <el-col :span="24" v-if="info.genType == '1'">
         <el-form-item prop="genPath">
           <span slot="label">

@@ -1,8 +1,15 @@
 package com.ruoyi.generator.domain;
 
 import javax.validation.constraints.NotBlank;
+
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.utils.StringUtils;
+
+import java.util.Map;
 
 /**
  * 代码生成业务字段表 gen_table_column
@@ -67,6 +74,47 @@ public class GenTableColumn extends BaseEntity
 
     /** 排序 */
     private Integer sort;
+
+    /** 其他生成选项 */
+    private String columnOptions;
+    /** 其他生成选项 */ 
+    private Map<String, Object> optionsMap;
+
+    public Map<String, Object> getOptionsMap() {
+        return JSON.parseObject(this.columnOptions);
+    }
+    
+    public void setOptionsMap(Map<String, Object> optionsMap) {
+        this.optionsMap = optionsMap;
+        this.columnOptions = JSON.toJSONString(optionsMap);
+    }
+
+    public void addOption(String key, Object value) {
+        JSONObject jsonObject;
+        if (StrUtil.isEmpty(columnOptions)) {
+            jsonObject = new JSONObject();
+        } else {
+            jsonObject = JSON.parseObject(this.columnOptions);
+        }
+        jsonObject.put(key, value);
+        this.columnOptions = JSON.toJSONString(jsonObject);
+    }
+    public <T> T getOptionByKey(String key,Class<T> clazz) {
+        if (StrUtil.isEmpty(this.columnOptions)) {
+            return null;
+        }
+        JSONObject jsonObject = JSON.parseObject(this.columnOptions);
+        T obj = Convert.convert(clazz, jsonObject.get(key));
+        return obj;
+    }
+    public String getColumnOptions() {
+        return columnOptions;
+    }
+
+    public void setColumnOptions(String columnOptions) {
+        this.columnOptions = columnOptions;
+        this.optionsMap = JSON.parseObject(this.columnOptions);
+    }
 
     public void setColumnId(Long columnId)
     {

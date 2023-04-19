@@ -23,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="htmlType"       column="html_type"      />
         <result property="dictType"       column="dict_type"      />
         <result property="sort"           column="sort"           />
+        <result property="columnOptions"  column="column_options" />
         <result property="createBy"       column="create_by"      />
         <result property="createTime"     column="create_time"    />
         <result property="updateBy"       column="update_by"      />
@@ -30,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
 	<sql id="selectGenTableColumnVo">
-        select column_id, table_id, column_name, column_comment, column_type, java_type, java_field, is_pk, is_increment, is_required, is_insert, is_edit, is_list, is_query, query_type, html_type, dict_type, sort, create_by, create_time, update_by, update_time from gen_table_column
+        select column_id, table_id, column_name, column_comment, column_type, java_type, java_field, is_pk, is_increment, is_required, is_insert, is_edit, is_list, is_query, query_type, html_type, dict_type, sort, column_options, create_by, create_time, update_by, update_time from gen_table_column
     </sql>
 
     <select id="selectGenTableColumnListByTableId" parameterType="Long" resultMap="GenTableColumnResult">
@@ -64,6 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="htmlType != null and htmlType != ''">html_type,</if>
 			<if test="dictType != null and dictType != ''">dict_type,</if>
 			<if test="sort != null">sort,</if>
+			<if test="columnOptions!= null and columnOptions!=''">column_options,</if>
 			<if test="createBy != null and createBy != ''">create_by,</if>
 			create_time
          )values(
@@ -84,7 +86,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="htmlType != null and htmlType != ''">#{htmlType},</if>
 			<if test="dictType != null and dictType != ''">#{dictType},</if>
 			<if test="sort != null">#{sort},</if>
-			<if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="columnOptions != null and columnOptions!=''">#{columnOptions},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
 			sysdate()
          )
     </insert>
@@ -104,6 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="htmlType != null">html_type = #{htmlType},</if>
             <if test="dictType != null">dict_type = #{dictType},</if>
             <if test="sort != null">sort = #{sort},</if>
+            <if test="columnOptions != null and columnOptions!=''">`column_options`=#{columnOptions},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             update_time = sysdate()
         </set>

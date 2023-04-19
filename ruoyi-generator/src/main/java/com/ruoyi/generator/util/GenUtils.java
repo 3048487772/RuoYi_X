@@ -40,6 +40,8 @@ public class GenUtils
         genTable.addParams("lombok", GenConfig.getLombok());
         genTable.addParams("swagger", GenConfig.getSwagger());
         genTable.addParams("imported", GenConfig.getImported());
+        genTable.addParams("backModuleName", GenConfig.getBackModuleName());
+        genTable.addParams("frontModuleName", GenConfig.getFrontModuleName());
         String options = JSON.toJSONString(genTable.getParams());
         genTable.setOptions(options);
     }
@@ -60,10 +62,12 @@ public class GenUtils
         column.setQueryType(GenConstants.QUERY_EQ);
 
         //列表排除
-        String[] unListType={"text"};//列表排除
+        String[] unListType={"text"};
         String[] unListComment={"描述","内容","详情"};
         //查询字段
         String[] queryComment={"名称", "类型","号"};
+        //导出排除
+        String[] unExportComment = {};
         //模糊查询字段
         String[]  likeName={"name","phone"};
         String[]  likeComment={"名称","号"};
@@ -135,6 +139,17 @@ public class GenUtils
             if (StringUtils.containsAny(column.getColumnComment(), queryComment)) {
                 column.setIsQuery(GenConstants.REQUIRE);
             }
+        }
+        // 导出字段
+        if (!arraysContains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk())
+        {
+            if (!StringUtils.containsAny(column.getColumnComment(), unExportComment)) {
+                column.addOption("export", GenConstants.REQUIRE);
+            } else {
+                column.addOption("export", GenConstants.UNREQUIRE);
+            } 
+        }else {
+            column.addOption("export", GenConstants.UNREQUIRE);
         }
 
         // 查询字段类型

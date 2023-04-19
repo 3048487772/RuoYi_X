@@ -545,8 +545,8 @@ public class GenTableServiceImpl implements IGenTableService
      * @return 生成地址
      */
     public static String getGenPath(GenTable table, String template) {
-        String backModuleName = GenConfig.getBackModuleName();
-        String frontModuleName = GenConfig.getFrontModuleName();
+        String backModuleName = table.getOptionByKey("backModuleName",String.class);
+        String frontModuleName = table.getOptionByKey("frontModuleName", String.class);
         String genPath = table.getGenPath();
         if (StringUtils.equals(genPath, "/")) {
             if (template.contains("vue") || template.contains("api")) {
