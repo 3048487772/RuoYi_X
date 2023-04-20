@@ -68,6 +68,11 @@
               <el-checkbox true-label="1" false-label="0" v-model="scope.row.optionsMap.export"></el-checkbox>
             </template>
           </el-table-column>
+          <el-table-column label="导入" min-width="5%" v-if="info.params.imported">
+            <template slot-scope="scope">
+              <el-checkbox true-label="1" false-label="0" v-model="scope.row.optionsMap.import"></el-checkbox>
+            </template>
+          </el-table-column>
           <el-table-column label="查询方式" min-width="10%">
             <template slot-scope="scope">
               <el-select v-model="scope.row.queryType">

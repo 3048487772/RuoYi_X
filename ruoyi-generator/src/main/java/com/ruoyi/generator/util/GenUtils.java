@@ -151,6 +151,11 @@ public class GenUtils
         }else {
             column.addOption("export", GenConstants.UNREQUIRE);
         }
+        if (!arraysContains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk()) {
+            column.addOption("import", GenConstants.REQUIRE);
+        } else {
+            column.addOption("import", GenConstants.UNREQUIRE);
+        }
 
         // 查询字段类型
         if (StrUtil.containsAny(columnName, likeName)||StrUtil.containsAny(column.getColumnComment(),likeComment))

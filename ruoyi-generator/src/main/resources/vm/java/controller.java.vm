@@ -145,9 +145,9 @@ public class ${ClassName}Controller extends BaseController{
     @Log(title = "${functionName}", businessType = BusinessType.IMPORT)
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception{
-        ExcelUtil<${ClassName}> util = new ExcelUtil<>(${ClassName}.class);
-        List<${ClassName}> ${className}List = util.importExcel(file.getInputStream());
-        String message = ${className}Service.imporIteminfo(${className}List, updateSupport);
+        ExcelUtil<${ClassName}ImportVO> util = new ExcelUtil<>(${ClassName}ImportVO.class);
+        List<${ClassName}ImportVO> ${className}List = util.importExcel(file.getInputStream());
+        String message = ${className}Service.imporIteminfo(Convert.convert(new TypeReference<List<${ClassName}>>() {},${className}List), updateSupport);
         return AjaxResult.success(message);
     }
     /**
@@ -155,7 +155,7 @@ public class ${ClassName}Controller extends BaseController{
      */
     @PostMapping("/importTemplate")
     public void importTemplate(HttpServletResponse response) throws IOException{
-        ExcelUtil<${ClassName}> util = new ExcelUtil<>(${ClassName}.class);
+        ExcelUtil<${ClassName}ImportVO> util = new ExcelUtil<>(${ClassName}ImportVO.class);
         util.importTemplateExcel(response,"${functionName}");
     }
 #end    
