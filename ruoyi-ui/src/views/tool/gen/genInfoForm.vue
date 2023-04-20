@@ -77,7 +77,27 @@
           />
         </el-form-item>
       </el-col>
-
+      <el-col :span="24">
+        <el-form-item label="菜单图标" prop="icon">
+          <el-popover
+            placement="bottom-start"
+            width="460"
+            trigger="click"
+            @show="$refs['iconSelect'].reset()"
+          >
+            <IconSelect ref="iconSelect" @selected="selected" />
+            <el-input slot="reference" v-model="info.params.menuIcon" placeholder="点击选择图标" readonly>
+              <svg-icon
+                v-if="info.params.menuIcon"
+                slot="prefix"
+                :icon-class="info.params.menuIcon"
+                style="width: 25px;"
+              />
+              <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+            </el-input>
+          </el-popover>
+        </el-form-item>
+      </el-col>
       <el-col :span="12">
         <el-form-item prop="genType">
           <span slot="label">
@@ -239,9 +259,9 @@
 <script>
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-
+import IconSelect from "@/components/IconSelect";
 export default {
-  components: { Treeselect },
+  components: { Treeselect,IconSelect },
   props: {
     info: {
       type: Object,
@@ -285,6 +305,10 @@ export default {
     }
   },
   methods: {
+    // 选择图标
+    selected(name) {
+      this.info.params.menuIcon = name;
+    },
     /** 转换菜单数据结构 */
     normalizer(node) {
       if (node.children && !node.children.length) {
