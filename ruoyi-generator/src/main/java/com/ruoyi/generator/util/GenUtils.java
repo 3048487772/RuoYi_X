@@ -27,7 +27,7 @@ public class GenUtils
         genTable.setClassName(convertClassName(genTable.getTableName()));
         genTable.setPackageName(GenConfig.getPackageName());
         genTable.setModuleName(getModuleName(GenConfig.getPackageName()));
-        genTable.setBusinessName(convertClassName(genTable.getTableName()));
+        genTable.setBusinessName(StringUtils.uncapitalize(genTable.getClassName()));
         genTable.setFunctionName(replaceText(genTable.getTableComment()));
         try {
             genTable.setFunctionAuthor(new String(GenConfig.getAuthor().getBytes("UTF-8")));
