@@ -281,12 +281,11 @@ export default {
     //创建菜单
     handleCreateMenu(row){
       this.$modal.confirm('是否确认创建'+row.functionName+'的菜单').then(function () {
-        return delMenu(row.menuId);
-      }).then(() => {
         createMenu(row.tableName).then(response => {
           this.$modal.msgSuccess("创建菜单成功");
-          window.location.reload()
         });
+      }).then(() => {
+        window.location.reload()
       });
 
     },
