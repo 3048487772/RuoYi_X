@@ -267,7 +267,7 @@ public class GenTableServiceImpl implements IGenTableService
         for (String template : templates)
         {
             String path = getGenPath(table, template);
-            if (!GenConfig.override &&new File(path).exists()) {
+            if (!table.getOptionByKey("override",Boolean.class) &&new File(path).exists()) {
                 continue;
             }
             if (!StrUtil.containsAny(template, "sql.vm")) {

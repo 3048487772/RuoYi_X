@@ -77,6 +77,8 @@ spring:
     database: 1
     # 密码
     password:
+    # key前缀
+    prefix: ruoyi
     # 连接超时时间
     timeout: 10s
     lettuce:

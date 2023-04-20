@@ -98,7 +98,7 @@
           </el-popover>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="24">
         <el-form-item prop="genType">
           <span slot="label">
             生成代码方式
@@ -108,6 +108,14 @@
           </span>
           <el-radio v-model="info.genType" label="0">zip压缩包</el-radio>
           <el-radio v-model="info.genType" label="1">自定义路径</el-radio>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="生成选项" v-if="info.genType == '1'">
+          <el-checkbox v-model="info.params.override">覆盖已生成的文件</el-checkbox>
+          <el-tooltip content="勾选后生成覆盖所有重名文件，否则只生成路径不存在的文件" placement="top">
+            <i class="el-icon-question"></i>
+          </el-tooltip>
         </el-form-item>
       </el-col>
       <el-col :span="12" v-if="info.genType == '1'">

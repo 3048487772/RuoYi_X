@@ -5,4 +5,6 @@ spring:
         port: 6379
         host: localhost
         password: 
-        database: 0
+        database: 1
+        # key前缀
+        prefix: ruoyi

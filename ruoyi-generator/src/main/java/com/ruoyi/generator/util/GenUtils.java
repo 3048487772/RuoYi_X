@@ -43,6 +43,7 @@ public class GenUtils
         genTable.addParams("backModuleName", GenConfig.getBackModuleName());
         genTable.addParams("frontModuleName", GenConfig.getFrontModuleName());
         genTable.addParams("menuIcon", "#");
+        genTable.addParams("override", GenConfig.getOverride());
         String options = JSON.toJSONString(genTable.getParams());
         genTable.setOptions(options);
     }

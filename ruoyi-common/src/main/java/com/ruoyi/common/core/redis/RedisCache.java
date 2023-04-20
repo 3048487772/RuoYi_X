@@ -1,12 +1,11 @@
 package com.ruoyi.common.core.redis;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -25,6 +24,21 @@ public class RedisCache
     @Autowired
     public RedisTemplate redisTemplate;
 
+
+    @Value("${spring.redis.prefix}")
+    private String keyPrefix="";
+
+    private String addKeyPrefix(String key, boolean needPrefix) {
+        if (needPrefix) {
+            if (StrUtil.isNotEmpty(keyPrefix) && !key.startsWith(keyPrefix + ":")) {
+                return keyPrefix + ":" + key;
+            } else {
+                return key;
+            }
+        } else {
+            return key;
+        }
+    }
     /**
      * 缓存基本的对象，Integer、String、实体类等
      *
@@ -33,8 +47,14 @@ public class RedisCache
      */
     public <T> void setCacheObject(final String key, final T value)
     {
-        redisTemplate.opsForValue().set(key, value);
+        setCacheObject(key,value,true);
     }
+    public <T> void setCacheObject(final String key, final T value,boolean needPrefix)
+    {
+        redisTemplate.opsForValue().set(addKeyPrefix(key,needPrefix), value);
+    }
+
+
 
     /**
      * 缓存基本的对象，Integer、String、实体类等
@@ -44,9 +64,13 @@ public class RedisCache
      * @param timeout 时间
      * @param timeUnit 时间颗粒度
      */
-    public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit)
+    public <T> void setCacheObject(final String key, final T value, final long timeout, final TimeUnit timeUnit)
     {
-        redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
+        setCacheObject(key, value, timeout, timeUnit,true);
+    }
+    public <T> void setCacheObject(final String key, final T value, final long timeout, final TimeUnit timeUnit,boolean needPrefix)
+    {
+        redisTemplate.opsForValue().set(addKeyPrefix(key,needPrefix), value, timeout, timeUnit);
     }
 
     /**
@@ -58,7 +82,11 @@ public class RedisCache
      */
     public boolean expire(final String key, final long timeout)
     {
-        return expire(key, timeout, TimeUnit.SECONDS);
+        return expire(key, timeout, TimeUnit.SECONDS,true);
+    }
+    public boolean expire(final String key, final long timeout,boolean needPrefix)
+    {
+        return expire(key, timeout, TimeUnit.SECONDS,needPrefix);
     }
 
     /**
@@ -71,7 +99,11 @@ public class RedisCache
      */
     public boolean expire(final String key, final long timeout, final TimeUnit unit)
     {
-        return redisTemplate.expire(key, timeout, unit);
+        return expire(key, timeout, unit,true);
+    }
+    public boolean expire(final String key, final long timeout, final TimeUnit unit,boolean needPrefix)
+    {
+        return redisTemplate.expire(addKeyPrefix(key,needPrefix), timeout, unit);
     }
 
     /**
@@ -82,7 +114,11 @@ public class RedisCache
      */
     public long getExpire(final String key)
     {
-        return redisTemplate.getExpire(key);
+        return getExpire(key,true);
+    }
+    public long getExpire(final String key,boolean needPrefix)
+    {
+        return redisTemplate.getExpire(addKeyPrefix(key,needPrefix));
     }
 
     /**
@@ -93,7 +129,11 @@ public class RedisCache
      */
     public Boolean hasKey(String key)
     {
-        return redisTemplate.hasKey(key);
+        return hasKey(key,true);
+    }
+    public Boolean hasKey(String key,boolean needPrefix)
+    {
+        return redisTemplate.hasKey(addKeyPrefix(key,needPrefix));
     }
 
     /**
@@ -104,8 +144,12 @@ public class RedisCache
      */
     public <T> T getCacheObject(final String key)
     {
+        return getCacheObject(key,true);
+    }
+    public <T> T getCacheObject(final String key,boolean needPrefix)
+    {
         ValueOperations<String, T> operation = redisTemplate.opsForValue();
-        return operation.get(key);
+        return operation.get(addKeyPrefix(key,needPrefix));
     }
 
     /**
@@ -115,7 +159,11 @@ public class RedisCache
      */
     public boolean deleteObject(final String key)
     {
-        return redisTemplate.delete(key);
+        return deleteObject(key,true);
+    }
+    public boolean deleteObject(final String key,boolean needPrefix)
+    {
+        return redisTemplate.delete(addKeyPrefix(key,needPrefix));
     }
 
     /**
@@ -124,9 +172,18 @@ public class RedisCache
      * @param collection 多个对象
      * @return
      */
-    public boolean deleteObject(final Collection collection)
+    public long deleteObject(final Collection collection)
     {
-        return redisTemplate.delete(collection) > 0;
+        return deleteObject(collection,true);
+    }
+    public long deleteObject(final Collection<String> collection,boolean needPrefix)
+    {
+
+        Collection<String> stringCollection = new ArrayList<>();
+        collection.forEach((e)->{
+            stringCollection.add(addKeyPrefix(e,needPrefix));
+        });
+        return redisTemplate.delete(stringCollection);
     }
 
     /**
@@ -138,7 +195,12 @@ public class RedisCache
      */
     public <T> long setCacheList(final String key, final List<T> dataList)
     {
-        Long count = redisTemplate.opsForList().rightPushAll(key, dataList);
+
+        return setCacheList(key,dataList,true);
+    }
+    public <T> long setCacheList(final String key, final List<T> dataList,boolean needPrefix)
+    {
+        Long count = redisTemplate.opsForList().rightPushAll(addKeyPrefix(key,needPrefix), dataList);
         return count == null ? 0 : count;
     }
 
@@ -150,7 +212,11 @@ public class RedisCache
      */
     public <T> List<T> getCacheList(final String key)
     {
-        return redisTemplate.opsForList().range(key, 0, -1);
+        return getCacheList(key,true);
+    }
+    public <T> List<T> getCacheList(final String key,boolean needPrefix)
+    {
+        return redisTemplate.opsForList().range(addKeyPrefix(key,needPrefix), 0, -1);
     }
 
     /**
@@ -162,7 +228,11 @@ public class RedisCache
      */
     public <T> BoundSetOperations<String, T> setCacheSet(final String key, final Set<T> dataSet)
     {
-        BoundSetOperations<String, T> setOperation = redisTemplate.boundSetOps(key);
+        return setCacheSet(key, dataSet,true);
+    }
+    public <T> BoundSetOperations<String, T> setCacheSet(final String key, final Set<T> dataSet,boolean needPrefix)
+    {
+        BoundSetOperations<String, T> setOperation = redisTemplate.boundSetOps(addKeyPrefix(key,needPrefix));
         Iterator<T> it = dataSet.iterator();
         while (it.hasNext())
         {
@@ -179,7 +249,11 @@ public class RedisCache
      */
     public <T> Set<T> getCacheSet(final String key)
     {
-        return redisTemplate.opsForSet().members(key);
+        return getCacheSet(key,true);
+    }
+    public <T> Set<T> getCacheSet(final String key,boolean needPrefix)
+    {
+        return redisTemplate.opsForSet().members(addKeyPrefix(key,needPrefix));
     }
 
     /**
@@ -190,8 +264,12 @@ public class RedisCache
      */
     public <T> void setCacheMap(final String key, final Map<String, T> dataMap)
     {
+        setCacheMap(key,dataMap,true);
+    }
+    public <T> void setCacheMap(final String key, final Map<String, T> dataMap,boolean needPrefix)
+    {
         if (dataMap != null) {
-            redisTemplate.opsForHash().putAll(key, dataMap);
+            redisTemplate.opsForHash().putAll(addKeyPrefix(key,needPrefix), dataMap);
         }
     }
 
@@ -203,7 +281,11 @@ public class RedisCache
      */
     public <T> Map<String, T> getCacheMap(final String key)
     {
-        return redisTemplate.opsForHash().entries(key);
+        return getCacheMap(key,true);
+    }
+    public <T> Map<String, T> getCacheMap(final String key,boolean needPrefix)
+    {
+        return redisTemplate.opsForHash().entries(addKeyPrefix(key,needPrefix));
     }
 
     /**
@@ -215,7 +297,11 @@ public class RedisCache
      */
     public <T> void setCacheMapValue(final String key, final String hKey, final T value)
     {
-        redisTemplate.opsForHash().put(key, hKey, value);
+        setCacheMapValue(key,hKey,value,true);
+    }
+    public <T> void setCacheMapValue(final String key, final String hKey, final T value,boolean needPrefix)
+    {
+        redisTemplate.opsForHash().put(addKeyPrefix(key,needPrefix), hKey, value);
     }
 
     /**
@@ -227,8 +313,12 @@ public class RedisCache
      */
     public <T> T getCacheMapValue(final String key, final String hKey)
     {
+        return getCacheMapValue(key, hKey,true);
+    }
+    public <T> T getCacheMapValue(final String key, final String hKey,boolean needPrefix)
+    {
         HashOperations<String, String, T> opsForHash = redisTemplate.opsForHash();
-        return opsForHash.get(key, hKey);
+        return opsForHash.get(addKeyPrefix(key,needPrefix), hKey);
     }
 
     /**
@@ -240,7 +330,11 @@ public class RedisCache
      */
     public <T> List<T> getMultiCacheMapValue(final String key, final Collection<Object> hKeys)
     {
-        return redisTemplate.opsForHash().multiGet(key, hKeys);
+        return getMultiCacheMapValue(key, hKeys,true);
+    }
+    public <T> List<T> getMultiCacheMapValue(final String key, final Collection<Object> hKeys,boolean needPrefix)
+    {
+        return redisTemplate.opsForHash().multiGet(addKeyPrefix(key,needPrefix), hKeys);
     }
 
     /**
@@ -254,7 +348,6 @@ public class RedisCache
     {
         return redisTemplate.opsForHash().delete(key, hKey) > 0;
     }
-
     /**
      * 获得缓存的基本对象列表
      *
@@ -263,6 +356,26 @@ public class RedisCache
      */
     public Collection<String> keys(final String pattern)
     {
-        return redisTemplate.keys(pattern);
+        return keys(pattern,true);
+    }
+    public Collection<String> keys(final String pattern,boolean needPrefix)
+    {
+        return redisTemplate.keys(addKeyPrefix(pattern,needPrefix));
+    }
+
+    /**
+     * 将 key 所储存的值加上增量 increment 。
+     * @param key
+     * @param increment
+     * @return
+     */
+    public long increment(String key,long increment)
+    {
+        return increment(key,increment,true);
+    }
+
+    public long increment(String key,long increment,boolean needPrefix)
+    {
+        return  redisTemplate.opsForValue().increment(key,increment);
     }
 }
