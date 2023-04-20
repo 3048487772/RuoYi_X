@@ -18,25 +18,21 @@
       </el-col>
       <el-col :span="12">
         <el-form-item label="作者" prop="functionAuthor">
-          <el-input placeholder="请输入" v-model="info.functionAuthor" />
+          <el-input placeholder="请输入" v-model="info.functionAuthor"/>
         </el-form-item>
       </el-col>
-      <el-form-item label="框架选择">
-        <el-col :span="2">
+      <el-col :span="24">
+        <el-form-item label="框架选择">
           <el-checkbox v-model="info.params.mybatisPlus">MybatisPlus</el-checkbox>
-        </el-col>
-        <el-col :span="2">
           <el-checkbox v-model="info.params.swagger">swagger</el-checkbox>
-        </el-col>
-        <el-col :span="2">
           <el-checkbox v-model="info.params.lombok">lombok</el-checkbox>
-        </el-col>
-      </el-form-item>
-      <el-form-item label="功能选择">
-        <el-col :span="2">
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <el-form-item label="功能选择">
           <el-checkbox v-model="info.params.imported">导入功能</el-checkbox>
-        </el-col>
-      </el-form-item>
+        </el-form-item>
+      </el-col>
       <el-col :span="24">
         <el-form-item label="备注" prop="remark">
           <el-input type="textarea" :rows="3" v-model="info.remark"></el-input>

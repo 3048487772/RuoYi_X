@@ -68,7 +68,8 @@ public class GenUtils
         //查询字段
         String[] queryComment={"名称", "类型","号"};
         //导出排除
-        String[] unExportComment = {};
+        String[] unExportComment = {"文件"};
+        String[] unImportComment = {"文件"};
         //模糊查询字段
         String[]  likeName={"name","phone"};
         String[]  likeComment={"名称","号"};
@@ -153,7 +154,11 @@ public class GenUtils
             column.addOption("export", GenConstants.UNREQUIRE);
         }
         if (!arraysContains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk()) {
-            column.addOption("import", GenConstants.REQUIRE);
+            if (!StringUtils.containsAny(column.getColumnComment(), unImportComment)) {
+                column.addOption("import", GenConstants.REQUIRE);
+            } else {
+                column.addOption("import", GenConstants.UNREQUIRE);
+            }
         } else {
             column.addOption("import", GenConstants.UNREQUIRE);
         }
