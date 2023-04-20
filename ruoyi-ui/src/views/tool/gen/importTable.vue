@@ -87,6 +87,11 @@ export default {
         if (res.code === 200) {
           this.dbTableList = res.rows;
           this.total = res.total;
+          this.$nextTick(() => {
+            if (this.dbTableList.length > 0) {
+              this.$refs.table.toggleRowSelection(this.dbTableList[0]);
+            }
+          })
         }
       });
     },

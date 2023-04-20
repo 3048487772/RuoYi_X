@@ -149,7 +149,7 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item @click.native="info.genPath = '/'">恢复默认的生成基础路径</el-dropdown-item>
+                <el-dropdown-item @click.native="info.genPath = '/'">生成到项目中</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-input>

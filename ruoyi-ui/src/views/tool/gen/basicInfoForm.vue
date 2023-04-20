@@ -23,7 +23,7 @@
       </el-col>
       <el-col :span="24">
         <el-form-item label="框架选择">
-          <el-checkbox v-model="info.params.mybatisPlus">MybatisPlus</el-checkbox>
+          <el-checkbox v-model="info.params.mybatisPlus">MyBatisPlus</el-checkbox>
           <el-checkbox v-model="info.params.swagger">swagger</el-checkbox>
           <el-checkbox v-model="info.params.lombok">lombok</el-checkbox>
         </el-form-item>
