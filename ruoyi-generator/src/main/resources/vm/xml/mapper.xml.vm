@@ -117,7 +117,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 #if($table.sub)
     
-    <delete id="delete${subClassName}By${subTableFkClassName}s" parameterType="String">
+    <delete id="delete${subClassName}By${subTableFkClassName}s" parameterType="${pkColumn.javaType}">
         delete from ${subTableName} where ${subTableFkName} in 
         <foreach item="${subTableFkclassName}" collection="array" open="(" separator="," close=")">
             #{${subTableFkclassName}}
