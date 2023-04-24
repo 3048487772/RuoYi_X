@@ -46,8 +46,13 @@ public class GenConfig
      * 默认生成方式
      **/
     public static String genType;
-    
-     /**
+    /**
+     * 默认生成位置
+     **/
+    public static String genPath;
+
+
+    /**
      * 路径生成时是否覆盖已存在文件
      **/
     public static Boolean override;
@@ -59,6 +64,14 @@ public class GenConfig
 
     public static Boolean getMybatisPlus() {
         return mybatisPlus;
+    }
+
+    public static String getGenPath() {
+        return genPath;
+    }
+    @Value("${genPath}")
+    public void setGenPath(String genPath) {
+        GenConfig.genPath = genPath;
     }
 
     @Value("${mybatisPlus}")

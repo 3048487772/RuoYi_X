@@ -130,27 +130,28 @@ public class VelocityUtils {
      */
     public static List<String> getTemplateList(String tplCategory) {
         List<String> templates = new ArrayList<String>();
-        templates.add("vm/java/domain.java.vm");
-        templates.add("vm/java/createVO.java.vm");
-        templates.add("vm/java/updateVO.java.vm");
-        templates.add("vm/java/searchVO.java.vm");
-        templates.add("vm/java/resultVO.java.vm");
-        templates.add("vm/java/exportVO.java.vm");
-        templates.add("vm/java/importVO.java.vm");
-        templates.add("vm/java/mapper.java.vm");
-        templates.add("vm/java/service.java.vm");
-        templates.add("vm/java/serviceImpl.java.vm");
-        templates.add("vm/java/controller.java.vm");
-        templates.add("vm/xml/mapper.xml.vm");
-        templates.add("vm/sql/sql.vm");
-        templates.add("vm/js/api.js.vm");
+        String folder = "vm_lxmes";
+        templates.add(folder+"/sql/sql.vm");
+        templates.add(folder+"/java/domain.java.vm");
+        templates.add(folder+"/java/createVO.java.vm");
+        templates.add(folder+"/java/updateVO.java.vm");
+        templates.add(folder+"/java/searchVO.java.vm");
+        templates.add(folder+"/java/resultVO.java.vm");
+        templates.add(folder+"/java/exportVO.java.vm");
+        templates.add(folder+"/java/importVO.java.vm");
+        templates.add(folder+"/java/mapper.java.vm");
+        templates.add(folder+"/java/service.java.vm");
+        templates.add(folder+"/java/serviceImpl.java.vm");
+        templates.add(folder+"/java/controller.java.vm");
+        templates.add(folder+"/xml/mapper.xml.vm");
+        templates.add(folder+"/js/api.js.vm");
         if (GenConstants.TPL_CRUD.equals(tplCategory)) {
-            templates.add("vm/vue/index.vue.vm");
+            templates.add(folder+"/vue/index.vue.vm");
         } else if (GenConstants.TPL_TREE.equals(tplCategory)) {
-            templates.add("vm/vue/index-tree.vue.vm");
+            templates.add(folder+"/vue/index-tree.vue.vm");
         } else if (GenConstants.TPL_SUB.equals(tplCategory)) {
-            templates.add("vm/vue/index.vue.vm");
-            templates.add("vm/java/sub-domain.java.vm");
+            templates.add(folder+"/vue/index.vue.vm");
+            templates.add(folder+"/java/sub-domain.java.vm");
         }
         return templates;
     }

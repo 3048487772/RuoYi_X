@@ -10,6 +10,8 @@ gen:
   tablePrefix: sys_,bis_
   # 默认生成方式 (0、压缩包 1、路径生成)
   genType: 1
+  #默认生成位置
+  genPath: /
   # 是否生成swagger注解 (模块需要引入swagger依赖,否则生成出的内容报错)
   swagger: true
   # 是否使用lombok注解 （需要引入lombok依赖）

@@ -36,6 +36,7 @@ public class GenUtils
         }
         genTable.setCreateBy(operName);
         genTable.setGenType(GenConfig.getGenType());
+        genTable.setGenPath(GenConfig.getGenPath());
         genTable.addParams("mybatisPlus", GenConfig.getMybatisPlus());
         genTable.addParams("lombok", GenConfig.getLombok());
         genTable.addParams("swagger", GenConfig.getSwagger());
