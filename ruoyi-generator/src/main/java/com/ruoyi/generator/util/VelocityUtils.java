@@ -130,7 +130,7 @@ public class VelocityUtils {
      */
     public static List<String> getTemplateList(String tplCategory) {
         List<String> templates = new ArrayList<String>();
-        String folder = "vm_lxmes";
+        String folder = "vm";
         templates.add(folder+"/sql/sql.vm");
         templates.add(folder+"/java/domain.java.vm");
         templates.add(folder+"/java/createVO.java.vm");
