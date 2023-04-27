@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+
+import cn.hutool.core.util.StrUtil;
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.system.service.ISysDictDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +35,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
 
     @Autowired
     private SysDictDataMapper dictDataMapper;
+
+    @Autowired
+    private ISysDictDataService dictDataService;
 
     /**
      * 项目启动时，初始化字典到缓存
@@ -175,6 +182,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     public int insertDictType(SysDictType dict)
     {
         int row = dictTypeMapper.insertDictType(dict);
+        setData(dict);
         if (row > 0)
         {
             DictUtils.setDictCache(dict.getDictType(), null);
@@ -195,12 +203,29 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
         SysDictType oldDict = dictTypeMapper.selectDictTypeById(dict.getDictId());
         dictDataMapper.updateDictDataType(oldDict.getDictType(), dict.getDictType());
         int row = dictTypeMapper.updateDictType(dict);
+        setData(dict);
         if (row > 0)
         {
             List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(dict.getDictType());
             DictUtils.setDictCache(dict.getDictType(), dictDatas);
         }
         return row;
+    }
+
+    private void setData(SysDictType dict) {
+        if (StrUtil.containsAny(dict.getRemark(), '/')) {
+            String[] split = dict.getRemark().split("/");
+            int length = split.length;
+            for (int i = 0; i < length; i++) {
+                SysDictData dictData = new SysDictData();
+                dictData.setDictType(dict.getDictType());
+                dictData.setDictValue(Convert.toStr(i + 1));
+                dictData.setDictSort(Convert.toLong(i));
+                dictData.setDictLabel(split[i]);
+                dictData.setListClass("default");
+                dictDataService.insertDictData(dictData);
+            }
+        }
     }
 
     /**
