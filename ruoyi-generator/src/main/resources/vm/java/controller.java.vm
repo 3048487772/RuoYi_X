@@ -59,18 +59,11 @@ public class ${ClassName}Controller extends BaseController{
     #end
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:list')")
     @GetMapping("/list")
-#if($table.crud || $table.sub)
     public TableDataInfo list(${ClassName}SearchVO ${className}){
         startPage();
         List<${ClassName}> list = ${className}Service.select${ClassName}List(BeanUtil.copyProperties(${className},${ClassName}.class));
         return getDataTable(Convert.convert(new TypeReference<List<${ClassName}ResultVO>>() {},list));
-}
-#elseif($table.tree)
-    public AjaxResult list(${ClassName} ${className}){
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-        return success(list);
     }
-#end
 
     /**
      * 导出${functionName}列表

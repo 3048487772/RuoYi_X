@@ -6,11 +6,7 @@ import ${import};
 #if($mybatisPlus)
 import com.baomidou.mybatisplus.annotation.*;
 #else
-#if($table.crud || $table.sub)
 import com.ruoyi.common.core.domain.BaseEntity;
-#elseif($table.tree)
-import com.ruoyi.common.core.domain.TreeEntity;
-#end
 #end
 #if(!$lombok)
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -31,18 +27,13 @@ import lombok.Data;
  * @author ${author}
  * @date ${datetime}
  */
-#if($table.crud || $table.sub)
-#set($Entity="BaseEntity")
-#elseif($table.tree)
-#set($Entity="TreeEntity")
-#end
 #if($lombok)
 @Data
 #end
 #if($mybatisPlus)
 @TableName("${tableName}")
 #end
-public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
+public class ${ClassName}#if(!$mybatisPlus) extends BaseEntity#end{
     private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
@@ -71,11 +62,6 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
 
 #end
 #end
-#if($table.sub)
-    /** $table.subTable.functionName信息 */
-    private List<${subClassName}> ${subclassName}List;
-
-#end
 
 #if(!$lombok)
 #foreach ($column in $columns)
@@ -96,19 +82,7 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
     }
 #end
 #end
-
-#if($table.sub)
-    public List<${subClassName}> get${subClassName}List()
-    {
-        return ${subclassName}List;
-    }
-
-    public void set${subClassName}List(List<${subClassName}> ${subclassName}List)
-    {
-        this.${subclassName}List = ${subclassName}List;
-    }
-
-#end
+    
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -119,9 +93,6 @@ public class ${ClassName}#if(!$mybatisPlus) extends ${Entity}#end{
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
 #end
             .append("${column.javaField}", get${AttrName}())
-#end
-#if($table.sub)
-            .append("${subclassName}List", get${subClassName}List())
 #end
             .toString();
     }
