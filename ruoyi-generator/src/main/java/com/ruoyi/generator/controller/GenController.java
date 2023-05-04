@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Console;
+import cn.hutool.core.lang.TypeReference;
 import cn.hutool.extra.tokenizer.Result;
 import cn.hutool.extra.tokenizer.TokenizerEngine;
 import cn.hutool.extra.tokenizer.TokenizerUtil;
 import cn.hutool.extra.tokenizer.Word;
+import com.ruoyi.common.utils.poi.ExcelUtil;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,6 +37,7 @@ import com.ruoyi.generator.domain.GenTable;
 import com.ruoyi.generator.domain.GenTableColumn;
 import com.ruoyi.generator.service.IGenTableColumnService;
 import com.ruoyi.generator.service.IGenTableService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 代码生成 操作处理
@@ -51,6 +54,15 @@ public class GenController extends BaseController
     @Autowired
     private IGenTableColumnService genTableColumnService;
 
+    /**
+     * 上传Excel
+     */
+    @Log(title = "上传Excel", businessType = BusinessType.IMPORT)
+    @PostMapping("/importExcel")
+    public AjaxResult importExcel(MultipartFile file){
+        Console.log(file.getName());
+        return success();
+    }
     /**
      * 查询代码生成列表
      */

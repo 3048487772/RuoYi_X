@@ -699,3 +699,16 @@ create table gen_table_column (
   update_time       datetime                                   comment '更新时间',
   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
+
+drop table if exists gen_word_record;
+CREATE TABLE `gen_word_record`(
+    `id`          bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `chinese`     varchar(255) DEFAULT NULL COMMENT '中文',
+    `english`     varchar(255) DEFAULT NULL COMMENT '英文',
+    `create_by`   varchar(64)  DEFAULT '' COMMENT '创建者',
+    `create_time` datetime     DEFAULT NULL COMMENT '创建时间',
+    `update_by`   varchar(64)  DEFAULT '' COMMENT '更新者',
+    `update_time` datetime     DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 COMMENT='中英文对应记录表';
+
