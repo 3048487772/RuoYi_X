@@ -17,7 +17,7 @@ import lombok.Data;
 #end
 
 /**
- * ${functionName}修改入参对象 ${tableName}
+ * ${functionName}列表对象 ${tableName}
  * 
  * @author ${author}
  * @date ${datetime}
