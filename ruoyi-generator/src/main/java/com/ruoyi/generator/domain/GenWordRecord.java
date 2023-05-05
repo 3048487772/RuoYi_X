@@ -31,6 +31,10 @@ public class GenWordRecord{
     @TableField(value = "english")
     private String english;
 
+    /** 拼音 */
+    @TableField(value = "pinyin")
+    private String pinyin;
+    
     /** 创建者 */
     @TableField(value = "create_by")
     private String createBy;

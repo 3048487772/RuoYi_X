@@ -66,7 +66,8 @@ public class GenUtils
 
         //列表排除
         String[] unListType={"text"};
-        String[] unListComment={"描述","内容","详情"};
+        String[] unListComment={"描述","内容","详情","id"};
+        String[] unListColumnName = {"id"};
         //查询字段
         String[] queryComment={"名称", "类型","号"};
         //导出排除
@@ -133,7 +134,8 @@ public class GenUtils
         }
         // 列表字段
         if (!arraysContains(GenConstants.COLUMNNAME_NOT_LIST, columnName) && !column.isPk()) {
-            if (!StrUtil.containsAny(column.getColumnType(), unListType)||!StrUtil.containsAny(column.getColumnComment(), unListComment)) {
+            if (!StrUtil.containsAny(column.getColumnType(), unListType)||!StrUtil.containsAny(column.getColumnComment(), unListComment)
+                    ||!StrUtil.containsAny(column.getColumnName(),unListColumnName)) {
                 column.setIsList(GenConstants.REQUIRE);
             }
         }

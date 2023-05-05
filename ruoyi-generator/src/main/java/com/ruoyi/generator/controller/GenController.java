@@ -53,16 +53,7 @@ public class GenController extends BaseController
 
     @Autowired
     private IGenTableColumnService genTableColumnService;
-
-    /**
-     * 上传Excel
-     */
-    @Log(title = "上传Excel", businessType = BusinessType.IMPORT)
-    @PostMapping("/importExcel")
-    public AjaxResult importExcel(MultipartFile file){
-        Console.log(file.getName());
-        return success();
-    }
+    
     /**
      * 查询代码生成列表
      */
