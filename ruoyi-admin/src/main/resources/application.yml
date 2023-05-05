@@ -21,7 +21,7 @@ server:
   port: 8080
   servlet:
     # 应用的访问路径
-    context-path: /
+    context-path: /wdf
   tomcat:
     # tomcat的URI编码
     uri-encoding: UTF-8
@@ -53,8 +53,12 @@ spring:
   messages:
     # 国际化资源文件路径
     basename: i18n/messages
-  profiles: 
-    active: druid,dev
+  profiles:
+    group:
+      # 配置文件组
+      production:
+        - "druid"
+        - "dev"
   # 文件上传
   servlet:
      multipart:
