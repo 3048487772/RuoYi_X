@@ -49,6 +49,9 @@ user:
 
 # Spring配置
 spring:
+  main:
+    #  懒初始化
+    lazy-initialization: false
   # 资源信息
   messages:
     # 国际化资源文件路径

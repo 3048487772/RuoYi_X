@@ -75,6 +75,14 @@ export function createMenu(tableName) {
   })
 }
 
+// 刷新实体
+export function refreshEntity(tableName) {
+  return request({
+    url: '/tool/gen/refreshEntity/' + tableName,
+    method: 'get'
+  })
+}
+
 // 同步数据库
 export function synchDb(tableName) {
   return request({

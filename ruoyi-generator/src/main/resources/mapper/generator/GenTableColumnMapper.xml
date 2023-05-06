@@ -48,7 +48,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <insert id="insertGenTableColumn" parameterType="GenTableColumn" useGeneratedKeys="true" keyProperty="columnId">
         insert into gen_table_column (
-			<if test="tableId != null and tableId != ''">table_id,</if>
+            <if test="columnId != null and columnId != ''">column_id,</if>
+            <if test="tableId != null and tableId != ''">table_id,</if>
 			<if test="columnName != null and columnName != ''">column_name,</if>
 			<if test="columnComment != null and columnComment != ''">column_comment,</if>
 			<if test="columnType != null and columnType != ''">column_type,</if>
@@ -69,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="createBy != null and createBy != ''">create_by,</if>
 			create_time
          )values(
+			<if test="columnId != null and columnId != ''">#{columnId},</if>
 			<if test="tableId != null and tableId != ''">#{tableId},</if>
 			<if test="columnName != null and columnName != ''">#{columnName},</if>
 			<if test="columnComment != null and columnComment != ''">(select SUBSTRING_INDEX(#{columnComment}, ' ', 1)),</if>

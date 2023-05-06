@@ -130,7 +130,6 @@ public class VelocityUtils {
      */
     public static List<String> getTemplateList(String tplCategory) {
         List<String> templates = new ArrayList<String>();
-        String folder = "vm";
         templates.add(folder+"/sql/sql.vm");
         templates.add(folder+"/java/domain.java.vm");
         templates.add(folder+"/java/createVO.java.vm");
@@ -153,6 +152,18 @@ public class VelocityUtils {
             templates.add(folder+"/vue/index.vue.vm");
             templates.add(folder+"/java/sub-domain.java.vm");
         }
+        return templates;
+    }
+    private static String folder = "vm";
+    public static List<String> getEntityTemplateList(String tplCategory) {
+        List<String> templates = new ArrayList<String>();
+        templates.add(folder+"/java/domain.java.vm");
+        templates.add(folder+"/java/createVO.java.vm");
+        templates.add(folder+"/java/updateVO.java.vm");
+        templates.add(folder+"/java/searchVO.java.vm");
+        templates.add(folder+"/java/resultVO.java.vm");
+        templates.add(folder+"/java/exportVO.java.vm");
+        templates.add(folder+"/java/importVO.java.vm");
         return templates;
     }
 
@@ -382,4 +393,6 @@ public class VelocityUtils {
         }
         return num;
     }
+
+    
 }

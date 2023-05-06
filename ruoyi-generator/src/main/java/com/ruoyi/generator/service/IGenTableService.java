@@ -122,4 +122,10 @@ public interface IGenTableService
 
     /** 创建菜单 */
     void createMenu(String tableName);
+
+    /**
+     * 刷新实体
+     * @param tableName
+     */
+    void refreshEntity(String tableName);
 }

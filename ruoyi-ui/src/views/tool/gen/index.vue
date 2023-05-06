@@ -154,6 +154,13 @@
             @click="handleCreateMenu(scope.row)"
             v-hasPermi="['tool:gen:createMenu']"
           >创建菜单</el-button>
+          <el-button
+            type="text"
+            size="small"
+            icon="el-icon-s-order"
+            @click="handleRefreshEntity(scope.row)"
+            v-hasPermi="['tool:gen:refreshEntity']"
+          >刷新实体</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -183,7 +190,7 @@
 </template>
 
 <script>
-import {listTable, previewTable, delTable, genCode, synchDb, createMenu} from "@/api/tool/gen";
+import {listTable, previewTable, delTable, genCode, synchDb, createMenu,refreshEntity} from "@/api/tool/gen";
 import importTable from "./importTable";
 import hljs from "highlight.js/lib/highlight";
 import "highlight.js/styles/github-gist.css";
@@ -293,16 +300,23 @@ export default {
         this.$download.zip("/tool/gen/batchGenCode?tables=" + tableNames, "ruoyi.zip");
       }
     },
-    //创建菜单
+    /*创建菜单按钮*/
     handleCreateMenu(row){
-      this.$modal.confirm('是否确认创建'+row.functionName+'的菜单').then(function () {
+      this.$modal.confirm('是否确认创建'+row.functionName+'的菜单？').then(function () {
         createMenu(row.tableName).then(response => {
           this.$modal.msgSuccess("创建菜单成功");
         });
       }).then(() => {
         window.location.reload()
       });
-
+    },
+    /*刷新实体按钮*/
+    handleRefreshEntity(row){
+      this.$modal.confirm('是否确认刷新'+row.functionName+'的实体类？').then(function () {
+        refreshEntity(row.tableName).then(response => {
+          this.$modal.msgSuccess("刷新实体成功");
+        });
+      })
     },
     /** 同步数据库操作 */
     handleSynchDb(row) {
