@@ -30,7 +30,7 @@ public class RuoYiApplication {
         log.info("|项目启动成功");
         log.info("|端口[{}]", SpringUtil.getProperty("server.port"));
         String docUrl = StrUtil.format("http://localhost:{}/{}/doc.html", SpringUtil.getProperty("server.port"), SpringUtil.getProperty("server.servlet.context-path"));
-        docUrl = URLUtil.normalize(docUrl);
+        docUrl = URLUtil.normalize(docUrl,false,true);
         log.info("|文档地址:[{}]", docUrl);
         log.info("===============================================");
     }
