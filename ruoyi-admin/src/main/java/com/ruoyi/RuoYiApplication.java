@@ -1,5 +1,6 @@
 package com.ruoyi;
 
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -26,13 +27,23 @@ public class RuoYiApplication {
     }
 
     private static void log() {
-        log.info("===============================================");
-        log.info("|项目启动成功");
-        log.info("|端口[{}]", SpringUtil.getProperty("server.port"));
+        String line = "=";
+        String success = "|项目启动成功";
+        String port = StrUtil.format("|端口:[{}]", SpringUtil.getProperty("server.port"));
         String docUrl = StrUtil.format("http://localhost:{}/{}/doc.html", SpringUtil.getProperty("server.port"), SpringUtil.getProperty("server.servlet.context-path"));
         docUrl = URLUtil.normalize(docUrl,false,true);
-        log.info("|文档地址:[{}]", docUrl);
-        log.info("===============================================");
+        String profile = StrUtil.format("|配置文件：{}", SpringUtil.getProperty("spring.profiles.active"));
+        String doc = StrUtil.format("|文档地址:[{}]", docUrl);
+        int max = NumberUtil.max(line.length(), success.length(), port.length(), doc.length());
+        line = StrUtil.fillAfter(line, '=', max+8);
+       
+
+        log.info(line);
+        log.info(success);
+        log.info(port);
+        log.info(doc);
+        log.info(profile);
+        log.info(line);
     }
 
 }

@@ -83,7 +83,7 @@
                 <el-option label="<" value="LT" />
                 <el-option label="<=" value="LTE" />
                 <el-option label="LIKE" value="LIKE" />
-                <el-option label="BETWEEN" value="BETWEEN" />
+                <el-option label="BETWEEN" value="BETWEEN" disabled/>
               </el-select>
             </template>
           </el-table-column>

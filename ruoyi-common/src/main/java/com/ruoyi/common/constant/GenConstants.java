@@ -42,7 +42,11 @@ public class GenConstants
 
     /** 数据库数字类型 */
     public static final String[] COLUMNTYPE_NUMBER = { "tinyint", "smallint", "mediumint", "int", "number", "integer",
-            "bit", "bigint", "float", "double", "decimal" };
+            "bigint", "float", "double", "decimal" };
+    
+    /** 数据库bit类型 */
+    public static final String[] COLUMNTYPE_BIT = {"bit"};
+    
 
     /** 页面不需要编辑字段 */
     public static final String[] COLUMNNAME_NOT_EDIT = { "id", "create_by", "create_time", "del_flag" };
@@ -76,8 +80,11 @@ public class GenConstants
     /** 复选框 */
     public static final String HTML_CHECKBOX = "checkbox";
 
-    /** 日期控件 */
+    /** 日期时间控件 */
     public static final String HTML_DATETIME = "datetime";
+    
+    /** 日期控件 */
+    public static final String HTML_DATE = "date";
 
     /** 图片上传控件 */
     public static final String HTML_IMAGE_UPLOAD = "imageUpload";
@@ -102,6 +109,9 @@ public class GenConstants
 
     /** 高精度计算类型 */
     public static final String TYPE_BIGDECIMAL = "BigDecimal";
+    
+    /** 布尔类型*/
+    public static final String TYPE_BOOLEAN = "Boolean";
 
     /** 时间类型 */
     public static final String TYPE_DATE = "Date";

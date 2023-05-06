@@ -40,8 +40,10 @@ public class ${ClassName}SearchVO{
 #else
 #set($comment=$column.columnComment)
 #end
-#if($column.javaType == 'Date')
+#if($column.htmlType == 'datetime')
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+#elseif($column.htmlType == 'date')
+    @JsonFormat(pattern = "yyyy-MM-dd")
 #end
 #if($swagger)
     @ApiModelProperty("${comment}")
