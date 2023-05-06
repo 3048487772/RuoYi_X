@@ -304,10 +304,8 @@ export default {
     handleCreateMenu(row){
       this.$modal.confirm('是否确认创建'+row.functionName+'的菜单？').then(function () {
         createMenu(row.tableName).then(response => {
-          this.$modal.msgSuccess("创建菜单成功");
+          this.$modal.msgSuccess("创建菜单成功,刷新后生效");
         });
-      }).then(() => {
-        window.location.reload()
       });
     },
     /*刷新实体按钮*/

@@ -63,7 +63,7 @@ public class GenUtils {
 
         //列表排除
         String[] unListType = {"text"};
-        String[] unListComment = {"描述", "内容", "详情", "id"};
+        String[] unListComment = {"描述", "内容", "详情", "id","ID"};
         String[] unListColumnName = {"id"};
         //查询字段
         String[] queryComment = {"名称", "类型", "号"};
