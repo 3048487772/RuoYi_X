@@ -1,0 +1,225 @@
+{
+  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/index/index",
+      "style":
+      {
+        "navigationBarTitleText": "首页",
+        // "enablePullDownRefresh": true,
+        "disableScroll": true, //增加此项
+        "app-plus":
+        {
+          "bounce": "none" //增加此项
+        }
+      }
+    },
+    {
+      "path": "pages/home/home",
+      "style":
+      {
+        "navigationBarTitleText": "资讯"
+      }
+    },
+	{
+	  "path": "pages/home/test",
+	  "style":
+	  {
+	    "navigationBarTitleText": "测试"
+	  }
+	},
+	{
+	  "path": "pages/essay/essay",
+	  "style":
+	  {
+	    "navigationBarTitleText": "随笔"
+	  }
+	},
+    {
+      "path": "pages/message/message",
+      "style":
+      {
+        "navigationBarTitleText": "留言"
+      }
+    },
+    {
+      "path": "pages/details/blogDetails",
+      "style":
+      {
+        "navigationBarTitleText": "详情",
+        "app-plus":
+        {
+          "navigationBarTextStyle": "white",
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/details/details",
+      "style":
+      {
+        "navigationBarTitleText": "详情",
+        "app-plus":
+        {
+          "navigationBarTextStyle": "white",
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/details/videoDetails",
+      "style":
+      {
+        "navigationBarTitleText": "",
+        "app-plus":
+        {
+          "titleNView": false,
+          "navigationBarTextStyle": "white",
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/mine/mine",
+      "style":
+      {
+        "navigationBarTitleText": "个人中心",
+        "app-plus":
+        {
+          "titleNView":
+          {
+            "buttons": [
+            {
+              "color": "white",
+              "colorPressed": "#eee",
+              "float": "right",
+              "fontSize": "30rpx",
+              "text": "退出" // 字体图标\u 开头，加上字体图标unicode后面四位
+            }]
+          }
+        }
+      }
+    },
+	{
+	  "path": "pages/mine/profile",
+	  "style":
+	  {
+	    "navigationBarTitleText": "编辑资料",
+	    "app-plus":
+	    {
+	      "navigationBarTextStyle": "white",
+	      "bounce": "none"
+	    }
+	  }
+	},
+	{
+		"path": "pages/my/index",
+		"style": {
+		  "navigationBarTitleText": "我的"
+		}
+	  },
+	{
+		"path": "pages/my/info/profile",
+		"style": {
+		  "navigationBarTitleText": "个人信息"
+		}
+	  },
+	{
+		"path": "pages/my/setting/index",
+		"style": {
+		  "navigationBarTitleText": "应用设置"
+		}
+	  },
+	{
+		"path": "pages/my/about/index",
+		"style": {
+		  "navigationBarTitleText": "关于我们"
+		}
+	  },
+	{
+		"path": "pages/my/help/index",
+		"style": {
+		  "navigationBarTitleText": "问题反馈"
+		}
+	  },
+    {
+      "path": "pages/login/login",
+      "style":
+      {
+        "navigationBarTitleText": "登录",
+        "app-plus":
+        {
+          "navigationBarTextStyle": "white",
+          "bounce": "none"
+        },
+		"navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/register/register",
+      "style":
+      {
+        "navigationBarTitleText": "注册"
+      }
+    }
+  ],
+  "globalStyle":
+  {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#08B6F2",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "login-template"
+  },
+  "tabBar":
+  {
+    "color": "#7A7E83",
+    "selectedColor": "#08B6F2",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/img/home_1.png",
+        "selectedIconPath": "static/img/home_2.png",
+        "text": "首页"
+      },
+      // {
+      //   "pagePath": "pages/home/home",
+      //   "iconPath": "static/img/notice.png",
+      //   "selectedIconPath": "static/img/notice-active.png",
+      //   "text": "资讯"
+      // },
+	  // {
+	  //   "pagePath": "pages/home/test",
+	  //   "iconPath": "static/img/notice.png",
+	  //   "selectedIconPath": "static/img/notice-active.png",
+	  //   "text": "测试"
+	  // },
+	  {
+	    "pagePath": "pages/essay/essay",
+	    "iconPath": "static/img/essay_1.png",
+	    "selectedIconPath": "static/img/essay_2.png",
+	    "text": "随笔"
+	  },
+	  {
+	    "pagePath": "pages/message/message",
+	    "iconPath": "static/img/msg_1.png",
+	    "selectedIconPath": "static/img/msg_2.png",
+	    "text": "留言"
+	  },
+      {
+        "pagePath": "pages/my/index",
+        "iconPath": "static/img/my_1.png",
+        "selectedIconPath": "static/img/my_2.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "condition":
+  { //模式配置，仅开发期间生效
+    "current": 0, //当前激活的模式(list 的索引项)
+    "list": []
+  },
+  "easycom": {
+  	"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
+  }
+}
