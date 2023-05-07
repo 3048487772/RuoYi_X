@@ -67,9 +67,7 @@ public class VelocityUtils {
         velocityContext.put("columns", genTable.getColumns());
         velocityContext.put("table", genTable);
         velocityContext.put("dicts", getDicts(genTable));
-        genTable.getOptionsMap().forEach((k,v)->{
-            velocityContext.put(k, v);
-        });
+        genTable.getOptionsMap().forEach(velocityContext::put);
         setMenuVelocityContext(velocityContext, genTable);
         if (GenConstants.TPL_TREE.equals(tplCategory)) {
             setTreeVelocityContext(velocityContext, genTable);

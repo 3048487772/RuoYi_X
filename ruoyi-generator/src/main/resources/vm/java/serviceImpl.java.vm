@@ -1,5 +1,6 @@
 package ${packageName}.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 #foreach ($column in $columns)
 #if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
@@ -31,9 +32,10 @@ import ${packageName}.service.I${ClassName}Service;
  */
 @Service
 public class ${ClassName}ServiceImpl#if($mybatisPlus) extends ServiceImpl<${ClassName}Mapper,${ClassName}>#end implements I${ClassName}Service{
-    
+#if(!$mybatisPlus)
     @Autowired
     private ${ClassName}Mapper ${className}Mapper;
+#end
 #if($imported)
     @Autowired
     protected Validator validator;
@@ -47,7 +49,7 @@ public class ${ClassName}ServiceImpl#if($mybatisPlus) extends ServiceImpl<${Clas
     @Override
     public ${ClassName} select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField}){
 #if($mybatisPlus)
-        return ${className}Mapper.selectById(${pkColumn.javaField});
+        return baseMapper.selectById(${pkColumn.javaField});
 #else
         return ${className}Mapper.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField});
 #end
@@ -62,7 +64,7 @@ public class ${ClassName}ServiceImpl#if($mybatisPlus) extends ServiceImpl<${Clas
     @Override
     public List<${ClassName}> select${ClassName}List(${ClassName} ${className}){
 #if($mybatisPlus)
-        return ${className}Mapper.selectList(Wrappers.lambdaQuery(${className}));
+        return baseMapper.selectList(Wrappers.lambdaQuery(${className}));
 #else
         return ${className}Mapper.select${ClassName}List(${className});
 #end
@@ -82,7 +84,7 @@ public class ${ClassName}ServiceImpl#if($mybatisPlus) extends ServiceImpl<${Clas
 #end
 #end
 #if($mybatisPlus)
-        return ${className}Mapper.insert(${className});
+        return baseMapper.insert(${className});
 #else
         return ${className}Mapper.insert${ClassName}(${className});
 #end
@@ -102,7 +104,7 @@ public class ${ClassName}ServiceImpl#if($mybatisPlus) extends ServiceImpl<${Clas
 #end
 #end
 #if($mybatisPlus)
-        return ${className}Mapper.updateById(${className});
+        return baseMapper.updateById(${className});
 #else
         return ${className}Mapper.update${ClassName}(${className});
 #end
@@ -116,7 +118,11 @@ public class ${ClassName}ServiceImpl#if($mybatisPlus) extends ServiceImpl<${Clas
      */
     @Override
     public int delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s){
+#if($mybatisPlus)
+        return baseMapper.deleteBatchIds(Arrays.asList(${pkColumn.javaField}s));
+#else
         return ${className}Mapper.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s);
+#end
     }
 
     /**
@@ -128,7 +134,7 @@ public class ${ClassName}ServiceImpl#if($mybatisPlus) extends ServiceImpl<${Clas
     @Override
     public int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField}){
 #if($mybatisPlus)
-        return ${className}Mapper.deleteById(${pkColumn.javaField});
+        return baseMapper.deleteById(${pkColumn.javaField});
 #else
         return ${className}Mapper.delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField});
 #end
