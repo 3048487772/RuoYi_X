@@ -2,6 +2,7 @@ package ${packageName}.controller;
 
 import java.util.List;
 import cn.hutool.core.bean.BeanUtil;
+import com.github.pagehelper.PageInfo;
 import ${packageName}.domain.${className}VO.*;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.TypeReference;
@@ -62,7 +63,8 @@ public class ${ClassName}Controller extends BaseController{
     public TableDataInfo list(${ClassName}SearchVO ${className}){
         startPage();
         List<${ClassName}> list = ${className}Service.select${ClassName}List(BeanUtil.copyProperties(${className},${ClassName}.class));
-        return getDataTable(Convert.convert(new TypeReference<List<${ClassName}ResultVO>>() {},list));
+        long total = new PageInfo(list).getTotal();
+        return getDataTable(Convert.convert(new TypeReference<List<${ClassName}ResultVO>>() {},list),total);
     }
 
     /**
