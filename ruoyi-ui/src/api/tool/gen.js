@@ -33,6 +33,14 @@ export function updateGenTable(data) {
     data: data
   })
 }
+// 修改代码生成菜单信息
+export function updateGenTableMenu(data) {
+  return request({
+    url: '/tool/gen/updateGenTableMenu',
+    method: 'put',
+    data: data
+  })
+}
 
 // 导入表
 export function importTable(data) {

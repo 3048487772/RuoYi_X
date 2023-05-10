@@ -2,19 +2,10 @@ package com.ruoyi.generator.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.lang.Console;
-import cn.hutool.core.lang.TypeReference;
-import cn.hutool.extra.tokenizer.Result;
-import cn.hutool.extra.tokenizer.TokenizerEngine;
-import cn.hutool.extra.tokenizer.TokenizerUtil;
-import cn.hutool.extra.tokenizer.Word;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +28,6 @@ import com.ruoyi.generator.domain.GenTable;
 import com.ruoyi.generator.domain.GenTableColumn;
 import com.ruoyi.generator.service.IGenTableColumnService;
 import com.ruoyi.generator.service.IGenTableService;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 代码生成 操作处理
@@ -134,6 +124,17 @@ public class GenController extends BaseController
     {
         genTableService.validateEdit(genTable);
         genTableService.updateGenTable(genTable);
+        return success();
+    }
+    /**
+     * 代码生成修改菜单
+     */
+    @PreAuthorize("@ss.hasPermi('tool:gen:edit')")
+    @Log(title = "代码生成修改菜单", businessType = BusinessType.UPDATE)
+    @PutMapping("/updateGenTableMenu")
+    public AjaxResult updateGenTableMenu(@RequestBody GenTable genTable)
+    {
+        genTableService.updateGenTableMenu(genTable);
         return success();
     }
 

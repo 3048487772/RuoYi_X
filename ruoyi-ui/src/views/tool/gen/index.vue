@@ -110,6 +110,19 @@
       />
       <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
       <el-table-column label="更新时间" align="center" prop="updateTime" width="160" />
+      <el-table-column label="上级菜单" align="center" prop="updateTime" width="160">
+        <template slot-scope="scope">
+            <treeselect
+              @input="updateParentMenu(scope.row)"
+              :append-to-body="true"
+              v-model="scope.row.optionsMap.parentMenuId"
+              :options="menus"
+              :normalizer="normalizer"
+              :show-count="true"
+              placeholder="请选择系统菜单"
+            />
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -190,11 +203,23 @@
 </template>
 
 <script>
-import {listTable, previewTable, delTable, genCode, synchDb, createMenu,refreshEntity} from "@/api/tool/gen";
+import {
+  listTable,
+  previewTable,
+  delTable,
+  genCode,
+  synchDb,
+  createMenu,
+  refreshEntity,
+  updateGenTable,updateGenTableMenu
+} from "@/api/tool/gen";
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+
 import importTable from "./importTable";
 import hljs from "highlight.js/lib/highlight";
 import "highlight.js/styles/github-gist.css";
-import {delMenu} from "@/api/system/menu";
+import {delMenu, listMenu as getMenuTreeselect} from "@/api/system/menu";
 import {getToken} from "@/utils/auth";
 hljs.registerLanguage("java", require("highlight.js/lib/languages/java"));
 hljs.registerLanguage("xml", require("highlight.js/lib/languages/xml"));
@@ -205,9 +230,10 @@ hljs.registerLanguage("sql", require("highlight.js/lib/languages/sql"));
 
 export default {
   name: "Gen",
-  components: { importTable },
+  components: { importTable, Treeselect},
   data() {
     return {
+      menus:[],
       // 遮罩层
       loading: true,
       // 唯一标识符
@@ -260,7 +286,9 @@ export default {
   },
   created() {
     this.getList();
+    this.getMenus()
   },
+
   activated() {
     const time = this.$route.query.t;
     if (time != null && time != this.uniqueId) {
@@ -270,6 +298,26 @@ export default {
     }
   },
   methods: {
+    updateParentMenu(row) {
+      updateGenTableMenu(row).then(res => {
+        this.$modal.msgSuccess(res.msg);
+      });
+    },
+    getMenus() {
+      getMenuTreeselect().then(response => {
+        this.menus = this.handleTree(response.data, "menuId");
+      });
+    },
+    normalizer(node) {
+      if (node.children && !node.children.length) {
+        delete node.children;
+      }
+      return {
+        id: node.menuId,
+        label: node.menuName,
+        children: node.children
+      };
+    },
     /** 查询表集合 */
     getList() {
       this.loading = true;

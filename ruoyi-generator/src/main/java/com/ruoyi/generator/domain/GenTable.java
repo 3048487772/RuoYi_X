@@ -388,6 +388,9 @@ public class GenTable extends BaseEntity
         JSONObject jsonObject = JSON.parseObject(this.options);
         return jsonObject;
     }
+    public void setOptionsMap(Map<String, Object> optionsMap) {
+        this.options=JSON.toJSONString(optionsMap);
+    }
     public <T> T getOptionByKey(String key,Class<T> clazz) {
         if (StrUtil.isEmpty(this.options)) {
             return null;
@@ -395,5 +398,13 @@ public class GenTable extends BaseEntity
         JSONObject jsonObject = JSON.parseObject(this.options);
         T obj = Convert.convert(clazz, jsonObject.get(key));
         return obj;
+    }
+    public void addOptionByKey(String key,Object value) {
+        JSONObject jsonObject = new JSONObject();
+        if (StrUtil.isNotEmpty(this.options)) {
+            jsonObject = JSON.parseObject(this.options);
+        }
+        jsonObject.put(key, value);
+        this.options = JSON.toJSONString(jsonObject);
     }
 }
