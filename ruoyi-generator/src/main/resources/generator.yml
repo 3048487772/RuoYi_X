@@ -4,6 +4,8 @@ gen:
   author: wdf
   # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
   packageName: com.ruoyi.bis
+  # common模块包名
+  commonPackageName: com.ruoyi
   # 自动去除表前缀，默认是false
   autoRemovePre: true
   # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）
