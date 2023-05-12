@@ -1,8 +1,5 @@
 package com.ruoyi.common.core.redis;
 
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +8,9 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
+
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * spring redis 工具类
@@ -354,11 +354,11 @@ public class RedisCache
      * @param pattern 字符串前缀
      * @return 对象列表
      */
-    public Collection<String> keys(final String pattern)
+    public Set<String> keys(final String pattern)
     {
         return keys(pattern,true);
     }
-    public Collection<String> keys(final String pattern,boolean needPrefix)
+    public Set<String> keys(final String pattern,boolean needPrefix)
     {
         return redisTemplate.keys(addKeyPrefix(pattern,needPrefix));
     }
