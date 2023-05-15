@@ -52,11 +52,7 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-bussiness</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-cms</artifactId>
-        </dependency>
+        
     </dependencies>
 
     <build>
