@@ -7,7 +7,7 @@ import ${import};
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 #end
-import com.ruoyi.common.annotation.Excel;
+import ${commonPackageName}.common.annotation.Excel;
 #if($swagger)
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -35,6 +35,7 @@ public class ${ClassName}ExportVO{
 #if($column.optionsMap.export=='1')
     /** $column.columnComment */
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
+#set($dictType=$column.dictType)
 #if($parentheseIndex != -1)
 #set($comment=$column.columnComment.substring(0, $parentheseIndex))
 #else
@@ -48,8 +49,12 @@ public class ${ClassName}ExportVO{
 #elseif($column.htmlType == 'date')
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "${comment}", width = 30, dateFormat = "yyyy-MM-dd")
+#elseif($column.htmlType=='imageUpload')
+    @Excel(name = "${comment}",cellType = Excel.ColumnType.IMAGE)
+#elseif(!$dictType.isEmpty())
+    @Excel(name = "${comment}",dictType = "${dictType}")
 #else
-    @Excel(name = "${comment}"#if($column.htmlType=='imageUpload'),cellType = Excel.ColumnType.IMAGE#end)
+    @Excel(name = "${comment}")
 #end
 #if($swagger)
     @ApiModelProperty("${comment}")

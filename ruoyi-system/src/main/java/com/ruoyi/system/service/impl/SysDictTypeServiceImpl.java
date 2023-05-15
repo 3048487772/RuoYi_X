@@ -225,6 +225,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
                 dictData.setListClass("default");
                 dictDataService.insertDictData(dictData);
             }
+            dict.setRemark(null);
         }
     }
 

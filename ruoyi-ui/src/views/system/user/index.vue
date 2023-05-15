@@ -84,8 +84,6 @@
           <el-col :span="1.5">
             <el-button
               type="primary"
-              plain
-              icon="el-icon-plus"
               size="mini"
               @click="handleAdd"
               v-hasPermi="['system:user:add']"
@@ -93,9 +91,7 @@
           </el-col>
           <el-col :span="1.5">
             <el-button
-              type="success"
               plain
-              icon="el-icon-edit"
               size="mini"
               :disabled="single"
               @click="handleUpdate"
@@ -104,9 +100,8 @@
           </el-col>
           <el-col :span="1.5">
             <el-button
-              type="danger"
               plain
-              icon="el-icon-delete"
+              type="da"
               size="mini"
               :disabled="multiple"
               @click="handleDelete"
@@ -115,9 +110,7 @@
           </el-col>
           <el-col :span="1.5">
             <el-button
-              type="info"
               plain
-              icon="el-icon-upload2"
               size="mini"
               @click="handleImport"
               v-hasPermi="['system:user:import']"
@@ -125,9 +118,7 @@
           </el-col>
           <el-col :span="1.5">
             <el-button
-              type="warning"
               plain
-              icon="el-icon-download"
               size="mini"
               @click="handleExport"
               v-hasPermi="['system:user:export']"

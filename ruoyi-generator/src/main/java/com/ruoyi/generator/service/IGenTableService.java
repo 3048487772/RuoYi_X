@@ -128,4 +128,11 @@ public interface IGenTableService
      * @param tableName
      */
     void refreshEntity(String tableName);
+
+    /**
+     * 修改菜单
+     * @param genTable
+     */
+    void updateGenTableMenu(GenTable genTable);
+    
 }

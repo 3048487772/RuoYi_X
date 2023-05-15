@@ -6,13 +6,13 @@ import ${import};
 #if($mybatisPlus)
 import com.baomidou.mybatisplus.annotation.*;
 #else
-import com.ruoyi.common.core.domain.BaseEntity;
+import ${commonPackageName}.common.core.domain.BaseEntity;
 #end
 #if(!$lombok)
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 #end
-import com.ruoyi.common.annotation.Excel;
+import ${commonPackageName}.common.annotation.Excel;
 #if($swagger)
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

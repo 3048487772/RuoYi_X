@@ -62,6 +62,20 @@ public class GenConfig
      **/
     public static Boolean  mybatisPlus;
 
+    /*common包名*/
+    public static String commonPackageName;
+
+    public static String getCommonPackageName() {
+        return commonPackageName;
+    }
+
+
+
+    @Value("${commonPackageName}")
+    public  void setCommonPackageName(String commonPackageName) {
+        GenConfig.commonPackageName = commonPackageName;
+    }
+
     public static Boolean getMybatisPlus() {
         return mybatisPlus;
     }

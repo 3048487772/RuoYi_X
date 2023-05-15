@@ -10,9 +10,7 @@
     display: none !important;
   }
 }
-.el-button {
-  border-radius: 2px; /* 将按钮的圆角半径设置为 20px */
-}
+
 
 .el-upload__input {
   display: none;
@@ -87,9 +85,9 @@
 }
 
 .el-menu--collapse
-  > div
-  > .el-submenu
-  > .el-submenu__title
-  .el-submenu__icon-arrow {
+> div
+> .el-submenu
+> .el-submenu__title
+.el-submenu__icon-arrow {
   display: none;
 }

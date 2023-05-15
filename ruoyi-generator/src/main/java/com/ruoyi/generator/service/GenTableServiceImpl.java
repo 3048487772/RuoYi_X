@@ -82,7 +82,8 @@ public class GenTableServiceImpl implements IGenTableService {
      */
     @Override
     public List<GenTable> selectGenTableList(GenTable genTable) {
-        return genTableMapper.selectGenTableList(genTable);
+        List<GenTable> genTables = genTableMapper.selectGenTableList(genTable);
+        return genTables;
     }
 
     /**
@@ -299,6 +300,14 @@ public class GenTableServiceImpl implements IGenTableService {
     @Override
     public void refreshEntity(String tableName) {
         generatorCode(tableName,"entity");
+    }
+
+    @Override
+    public void updateGenTableMenu(GenTable genTable) {
+        GenTable newGenTable = new GenTable();
+        newGenTable.setTableId(genTable.getTableId());
+        newGenTable.setOptions(genTable.getOptions());
+        genTableMapper.updateGenTable(newGenTable);
     }
 
     /**
