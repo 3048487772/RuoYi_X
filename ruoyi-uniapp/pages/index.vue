@@ -5,6 +5,9 @@
 			<text class="title">你好 {{brand}}用户</text>
 		</view>
 		<button @click="phone()">拨打电话</button>
+		<button @click="onlineLocation()">更新实时位置</button>
+		<text>经度：{{location.lng}},维度：{{location.lat}}</text>
+		<button @click="phone()">拨打电话</button>
 	</view>
 </template>
 
@@ -12,7 +15,11 @@
 	export default {
 		data() {
 			return {
-				brand: ''
+				brand: '',
+				location: {
+					lat:0,
+					lng:0
+				}
 			}
 		},
 		onLoad: function() {
@@ -20,11 +27,27 @@
 			this.getBattery()
 		},
 		methods: {
-			getBattery(){
+			onlineLocation() {
+				this.brand='小米'
+				let that = this
+				uni.startLocationUpdate({
+					success: res => console.log('开启小程序接收位置消息成功'),
+					fail: err => console.error('开启小程序接收位置消息失败：', err),
+					complete: msg => console.log('调用开启小程序接收位置消息 API 完成')
+				});
+				uni.onLocationChange(function(res) {
+					that.location.lat = res.latitude
+					that.location.lng = res.longitude
+					console.log('纬度：' + res.latitude);
+					console.log('经度：' + res.longitude);
+					console.log(that.location);
+				});
+			},
+			getBattery() {
 				uni.getBatteryInfo({
-				  success: (res) => {
-				    console.log(res)
-				  }
+					success: (res) => {
+						console.log(res)
+					}
 				})
 			},
 			getbrand() {
@@ -37,7 +60,7 @@
 					}
 				})
 			},
-			phone(){
+			phone() {
 				console.log('拨打电话');
 				uni.makePhoneCall({
 					phoneNumber: '15098282377' //仅为示例
