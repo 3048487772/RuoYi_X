@@ -1,14 +1,14 @@
 {
   "pages": [{
-    "path": "pages/login",
-    "style": {
-      "navigationBarTitleText": "登录"
-    }
-  }, {
     "path": "pages/index",
     "style": {
       "navigationBarTitleText": "若依移动端框架",
       "navigationStyle": "custom"
+    }
+  }, {
+    "path": "pages/login",
+    "style": {
+      "navigationBarTitleText": "登录"
     }
   }, {
     "path": "pages/work/index",
@@ -71,6 +71,7 @@
       "navigationBarTitleText": "浏览文本"
     }
   }],
+	"launchPath": "/pages/index",
   "tabBar": {
     "color": "#000000",
     "selectedColor": "#000000",
