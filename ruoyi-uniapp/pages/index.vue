@@ -7,7 +7,7 @@
 		<button @click="phone()">拨打电话</button>
 		<button @click="onlineLocation()">更新实时位置</button>
 		<text>经度：{{location.lng}},维度：{{location.lat}}</text>
-		<button @click="phone()">拨打电话</button>
+		<button @click="test()">测试页面</button>
 	</view>
 </template>
 
@@ -27,6 +27,9 @@
 			this.getBattery()
 		},
 		methods: {
+			test(){
+				this.$tab.reLaunch('/pages/test/index')
+			},
 			onlineLocation() {
 				this.brand='小米'
 				let that = this
